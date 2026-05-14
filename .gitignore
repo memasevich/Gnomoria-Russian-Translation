@@ -1,0 +1,17 @@
+[Dd]ebug/
+[Rr]elease/
+obj/
+[Bb]in/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.log
+TranslatorHook.log
+Skin/
+Default.zip
+Gnomoria_en_ru.json
+Gnomoria_en_ru_latest.json
+Gnomoria_en_ru_new.json
+Gnomoria_en_ru_fresh.json
+Gnomoria_en_ru_final.json
