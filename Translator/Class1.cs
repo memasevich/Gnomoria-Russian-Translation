@@ -46,6 +46,13 @@ namespace GnomoriaTranslator
             catch { }
         }
 
+        // Хак для смещения водяного знака "v1.0" влево, чтобы он не уезжал за экран
+        public static Vector2 AdjustPosition(string originalText, Vector2 pos)
+        {
+            if (originalText == "v1.0") return new Vector2(pos.X - 190f, pos.Y);
+            return pos;
+        }
+
         public static Texture2D GetTextTexture(GraphicsDevice device, string text)
         {
             if (TextureCache.TryGetValue(text, out Texture2D tex)) return tex;
@@ -102,7 +109,7 @@ namespace GnomoriaTranslator
             if (Hook.Translations.TryGetValue(text, out string translated) && text != translated)
             {
                 Texture2D tex = Hook.GetTextTexture(__instance.GraphicsDevice, translated);
-                __instance.Draw(tex, position, color);
+                __instance.Draw(tex, Hook.AdjustPosition(text, position), color);
                 return false;
             }
             return true;
@@ -126,7 +133,7 @@ namespace GnomoriaTranslator
             if (Hook.Translations.TryGetValue(text, out string translated) && text != translated)
             {
                 Texture2D tex = Hook.GetTextTexture(__instance.GraphicsDevice, translated);
-                __instance.Draw(tex, position, null, color, rotation, origin, scale, effects, layerDepth);
+                __instance.Draw(tex, Hook.AdjustPosition(text, position), null, color, rotation, origin, scale, effects, layerDepth);
                 return false;
             }
             return true;
@@ -151,7 +158,7 @@ namespace GnomoriaTranslator
             if (Hook.Translations.TryGetValue(str, out string translated) && str != translated)
             {
                 Texture2D tex = Hook.GetTextTexture(__instance.GraphicsDevice, translated);
-                __instance.Draw(tex, position, color);
+                __instance.Draw(tex, Hook.AdjustPosition(str, position), color);
                 return false;
             }
             return true;
@@ -176,7 +183,7 @@ namespace GnomoriaTranslator
             if (Hook.Translations.TryGetValue(str, out string translated) && str != translated)
             {
                 Texture2D tex = Hook.GetTextTexture(__instance.GraphicsDevice, translated);
-                __instance.Draw(tex, position, null, color, rotation, origin, scale, effects, layerDepth);
+                __instance.Draw(tex, Hook.AdjustPosition(str, position), null, color, rotation, origin, scale, effects, layerDepth);
                 return false;
             }
             return true;
