@@ -1,18 +1,37 @@
-# Gnomoria Russian Translation Mod (Live Rendering Engine)
+# Русификатор Gnomoria (Dynamic Translation Engine)
 
-This project provides a robust, real-time Russian translation for the game **Gnomoria**. Since Gnomoria uses compiled XNA `.xnb` font files that lack Cyrillic support, standard string replacement results in "??????" characters.
+Это инновационный мод-русификатор для игры **Gnomoria**. 
 
-This mod solves the issue elegantly:
-1. It injects a **Harmony hook** directly into `Gnomoria.exe` via `Mono.Cecil`.
-2. It intercepts all `SpriteBatch.DrawString` calls.
-3. Instead of trying to render unsupported text, it **dynamically draws the Russian text onto a transparent Texture2D** using system fonts (Arial) and renders that image instead.
-4. It caches the textures for optimal performance.
+Главная проблема перевода старых игр на XNA (MonoGame) заключается в том, что их внутренние шрифты (`.xnb`) не содержат кириллицы (русских букв). Обычно при попытке перевести текст игра показывает «??????». 
 
-## Installation
+Этот русификатор решает проблему элегантно и без вмешательства в оригинальные архивы игры:
+1. Он внедряет перехватчик (Harmony hook) прямо в `Gnomoria.exe`.
+2. Перехватывает все запросы игры на отрисовку текста (`SpriteBatch.DrawString`).
+3. Вместо того чтобы пытаться отрисовать текст неподдерживаемым шрифтом, мод **на лету генерирует прозрачную картинку с русским текстом** (используя встроенный шрифт Arial) и выводит эту картинку на экран.
+4. Текстуры кэшируются, поэтому игра работает без падения FPS.
 
-1. Copy `Translator.dll` and `0Harmony.dll` to your Gnomoria root folder (e.g., `Steam\steamapps\common\Gnomoria`).
-2. Copy `Gnomoria_en_ru_translated_final.json` to the root folder and rename it to `Gnomoria_en_ru.json`.
-3. Use the `Patcher` console app to inject the hook into `Gnomoria.exe`. (A backup will be created automatically).
+## Установка (В один клик)
 
-## Contributing
-To add more translations, simply play the game! Any untranslated English text will automatically be appended to `Gnomoria_en_ru.json`. Open the file, add your translations, and restart the game.
+Для игроков установка максимально упрощена:
+
+1. Скачайте архив `Gnomoria_Rus_Release.zip` из раздела [Releases](../../releases).
+2. Распакуйте **содержимое** архива в главную папку игры (там, где лежит `Gnomoria.exe`).
+   * *Путь в Steam обычно выглядит так: `C:\Program Files (x86)\Steam\steamapps\common\Gnomoria`*
+3. Запустите файл **`Patcher.exe`** из папки с игрой.
+4. В открывшемся черном окне вы увидите сообщение `Injection successful!`. 
+   * *(Оригинальный файл игры будет сохранен как `Gnomoria.exe.backup` на всякий случай).*
+5. Запускайте Gnomoria через Steam и наслаждайтесь русским языком!
+
+## Как помочь с переводом?
+
+Мод использует систему "Живого перевода". Если в игре встречается непереведенное английское слово, мод автоматически поймает его и добавит в файл словаря.
+
+1. Зайдите в папку с игрой и откройте файл `Gnomoria_en_ru.json` любым текстовым редактором (например, Блокнотом).
+2. Вы увидите список английских слов и их переводов. Непереведенные слова будут иметь одинаковый текст слева и справа.
+   * *Пример: `"apple": "apple"`*
+3. Замените текст справа на русский:
+   * *Пример: `"apple": "яблоко"`*
+4. Сохраните файл и перезапустите игру. Текст мгновенно обновится!
+
+---
+*Проект разработан и автоматизирован при поддержке ИИ.*
