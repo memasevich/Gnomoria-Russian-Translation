@@ -1,0 +1,508 @@
+| Оригинал (EN) | Перевод (RU) |
+| --- | --- |
+| before once again becoming tired.  | befруда once again becoming tired.  |
+| will also craft higher quality food and drinks,  | will also craft higher quality Еда and Питьеs,  |
+| floor | Пол |
+| Load | Загрузить |
+| metal sliver | металл стружка |
+| Shield: | Щит: |
+| (12) Pottery | (12) Гончарy |
+| Food: 64 | Еда: 64 |
+| Medic: | Медик: |
+| (7) Smelting | (7) Smelоловоg |
+| worn breastplate | worn нагрудник |
+| available chairs, gnomes will stand and eat but  | available стулs, gnomes will stand and eat but  |
+| stone wall | камень Стена |
+| can be crafted from wood or stone and are  | can be crafted from wood or камень and are  |
+| Depth: 1 | Глубина: 1 |
+| hammer head | молот head |
+| v1.0 | v0.0.2 | memasevich 2026 |
+| Suspended.  | Паузаed.  |
+| log wall | бревно Стена |
+| Woodcutter | Дровосек |
+| Remove Floor | Remove Пол |
+| furnace | печь |
+| Apply | Применить |
+| spring | Весна |
+| wall torch | Стена факел |
+| Sword: | Меч: |
+| 1st day of Spring | 1st день Весна |
+| Your Farmers will begin by harvesting any  | Your Фермерs will begin by harvesоловоg any  |
+| steel | сталь |
+| Prospecting: | Prospecоловоg: |
+| menu for interacting with it. For example, right  | menu for interacоловоg with it. For example, right  |
+| Guard Stations can be renamed to more easily  | Guard Stations can be renamed to mруда easily  |
+| smooth stone wall | smooth камень Стена |
+| stone | камень |
+| plank | доска |
+| metal wall | металл Стена |
+| Year 1 | Год 1 |
+| having to remove the floor first.  | having to remove the Пол first.  |
+| events that can be viewed by date. There is  | События that can be viewed by date. There is  |
+| Selecting items or categories on the left of the  | Selecоловоg items or categories on the left of the  |
+| iron | железо |
+| greave | поножи |
+| be removed before it can be set in place.  | be removed befруда it can be set in place.  |
+| floor.  | Пол.  |
+| game difficulty and total Kingdom Worth. The  | game difficulty and Всего Kingdom Ценность. The  |
+| Remove floor and mine section below into stairs | Remove Пол and mine section below into Лестница |
+| Cancel Job | Отмена Job |
+| Crude Workbench | Crude Верстак |
+| 1st day of Spring, Year 1 | 1st день Весна, Год 1 |
+| leather cuirass | кожа cuirass |
+| stone hand axe | камень топорик |
+| it's your job to help provide for them. As you  | и ваша цель — обеспечить их этим.  |
+| claymore blade | claymруда blade |
+| temporarily Suspended so that gnomes ignore  | temporarily Паузаed so that gnomes ignруда  |
+| rose gold | роз. золото |
+| Woodcutting will fell trees in your Grove.  | Woodcutоловоg will fell trees in your Grove.  |
+| plank floor | доска Пол |
+| Gemcutting: | Gemcutоловоg: |
+| gnomes with the Tinkering skill will get to work  | gnomes with the Оловоkering skill will get to work  |
+| wild strawberry plant | земляника plant |
+| malachite | малахит |
+| (10) Tailoring | (10) Портнойing |
+| worn pauldron | worn наплечник |
+| Hall. Gnomes without work will idle in the Great  | Hall. Gnomes without work will Бездельники in the Great  |
+| Mason: | Каменщик: |
+| block floor | block Пол |
+| drink in supply. Crafting more advanced food  | Питье in supply. Crafоловоg mруда advanced Еда  |
+| sword | меч |
+| before it can be used.  | befруда it can be used.  |
+| barrel | бочка |
+| pine crate (32/32) | сосна ящик (32/32) |
+| When starting out, gnomes don't know anything  | When starоловоg out, gnomes don't know anything  |
+| resting on the cold hard floor. However, if  | resоловоg on the cold hard Пол. However, if  |
+| Windowed | Оконный режим |
+| Mechanic: | Механик: |
+| Metalworking | Металлworking |
+| main setting is selecting which items are  | main setоловоg is selecоловоg which items are  |
+| pillar | колонна |
+| population as well as number of gnomes who are  | Население as well as number of gnomes who are  |
+| continue as usual.  | conоловоue as usual.  |
+| pine tree | сосна tree |
+| drink, weapons and armor. The Stockpiles tab  | Питье, weapons and armor. The Stockpiles tab  |
+| of the world as specific places and adjusting  | настраивая правила жизни.  |
+| hearth | очаг |
+| Armor Crafting: | Armor Crafоловоg: |
+| Gemcutter: | Огранщик: |
+| crafting in Gnomoria.  | crafоловоg in Gnomoria.  |
+| door | дверь |
+| pistol barrel | pistol бочка |
+| engraved floor | engraved Пол |
+| (16) Woodcutting | (16) Woodcutоловоg |
+| the world. This includes building walls, floors,  | the world. This includes building Стенаs, Полs,  |
+| claymore | claymруда |
+| screen. You can move the current depth up or  | screen. You can move the current Глубина up or  |
+| they will go to a hospital bed and wait for a  | they will go to a hospital кровать and wait for a  |
+| The Events window provides of log of various  | The События window provides of бревно of various  |
+| Rancher: | Животновод: |
+| (10) Medic | (10) Медик |
+| large area. Like other Military Designations, a  | large area. Like other Армия Designations, a  |
+| move from the last point back to the first and  | move from the last point Назад to the first and  |
+| tinker.  | оловоker.  |
+| Engineering: | Инженерing: |
+| Events | События |
+| enabled will bring food or drink to these  | enabled will bring Еда or Питье to these  |
+| chair | стул |
+| raw stone | raw камень |
+| Miner | Шахтер |
+| before a lower priority (higher number).  | befруда a lower priority (higher number).  |
+| leather glove | кожа glove |
+| (25) Masonry | (25) Каменщикry |
+| Woodcarver: | Резчик по дереву: |
+| floors from their vantage point.  | Полs from their vantage point.  |
+| Machinist: | Машинист: |
+| Effects how far gnomes will travel for better food and drink | Effects how far gnomes will travel for better Еда and Питье |
+| Engineer | Инженер |
+| Video | Видео |
+| Weaponsmith: | Оружейник: |
+| coal | уголь |
+| Save | Сохранить |
+| crate | ящик |
+| Steam Workshop | Мастерская Steam |
+| crossbow stock | арбалет stock |
+| Leader | Свинецer |
+| creating jobs and interacting with the world.  | creaоловоg jobs and interacоловоg with the world.  |
+| Total (0) | Всего (0) |
+| Masonry | Каменщикry |
+| Jeweler | Ювелир |
+| Build Stairs Up | Build Лестница Up |
+| straw bed | straw кровать |
+| bar | слиток |
+| Cancel | Отмена |
+| Tailor: | Портной: |
+| ceramic wall | керамика Стена |
+| played by indirectly controlling your gnomes  | где вы косвенно руководите ими,  |
+| Smelter: | Плавильщик: |
+| gauntlet | перчатка |
+| The Population menu provides detailed  | The Население menu provides detailed  |
+| Wall | Стена |
+| blunderbuss barrel | blunderbuss бочка |
+| cabinet | caконтейнерet |
+| Help | Помощь |
+| Remove floor and section below | Remove Пол and section below |
+| bone | кость |
+| pauldron | наплечник |
+| so that gnomes ignore it.  | so that gnomes ignруда it.  |
+| Display: | Дисплей: |
+| hand axe | топорик |
+| Mine Wall | Mine Стена |
+| Engineering | Инженерing |
+| drink | Питье |
+| Stonecarving | Каменьcarving |
+| grape | виноград |
+| bone shirt | кость shirt |
+| continuing, thus making stairs slightly slower  | conоловоuing, thus making Лестница slightly slower  |
+| Decrease depth | Decrease Глубина |
+| Stonecarver: | Резчик по камню: |
+| decorative stone wall | decorative камень Стена |
+| breastplate | нагрудник |
+| spiral engraved floor | spiral engraved Пол |
+| Back: | Назад: |
+| longer before needing to sleep again. Sleeping  | longer befруда needing to sleep again. Sleeping  |
+| leather | кожа |
+| Brewer: | Пивовар: |
+| can be built directly into the floor without  | can be built directly into the Пол without  |
+| harvest they will plant seeds on tilled soil. If  | harvest they will plant seeds on tilled земля. If  |
+| Stairs Up | Лестница Up |
+| Chef: | Повар: |
+| leather boot | кожа ботинок |
+| Mine Stairs Up | Mine Лестница Up |
+| basic Position options.  | basic Position Настройки.  |
+| crafting metal alloys or turning logs into coal,  | crafоловоg металл alloys or turning бревноs into уголь,  |
+| can also be renamed and temporarily Suspended  | can also be renamed and temporarily Паузаed  |
+| apple | яблоко |
+| stone hammer | камень молот |
+| Soldiers: 0 | Солдатs: 0 |
+| Your gnomes will need food and drink to surive  | Your gnomes will need Еда and Питье to surive  |
+| Golly Miner | Golly Шахтер |
+| A pine crate. Used to store various items.  | A сосна ящик. Used to stруда various items.  |
+| Blacksmith: | Кузнец: |
+| Crafting | Crafоловоg |
+| Population: 9 | Население: 9 |
+| Jeweler: | Ювелир: |
+| Depth: 5 | Глубина: 5 |
+| carved floor | carved Пол |
+| sword blade | меч blade |
+| Controls | Управление |
+| become more experienced in that skill and train  | become mруда experienced in that skill and train  |
+| your kingdom. The more valuable the personal  | your kingdom. The mруда valuable the personal  |
+| survive in this harsh world for as long as  | в этом суровом мире так долго,  |
+| (13) Gemcutting | (13) Gemcutоловоg |
+| where a Military Squad should defend. Gnomes  | where a Армия Squad should defend. Gnomes  |
+| platinum | платина |
+| worn gauntlet | worn перчатка |
+| Generating Map | Generaоловоg Map |
+| bone needle | кость needle |
+| Suspended so that gnomes ignore it.  | Паузаed so that gnomes ignруда it.  |
+| Tinkerer: | Жестянщик: |
+| Farms have a Priority setting and higher  | Farms have a Priority setоловоg and higher  |
+| copper | медь |
+| Stonecarving: | Каменьcarving: |
+| possible.  | как это возможно.  |
+| Armor Crafting | Armor Crafоловоg |
+| as crates, barrels and bags, can be built on  | as ящикs, бочкаs and мешокs, can be built on  |
+| anything in that list will provide more  | anything in that list will provide mруда  |
+| Caretaker: | Смотритель: |
+| Options | Настройки |
+| will cut clippings to be used for growing more  | will cut clippings to be used for growing mруда  |
+| shield boss | щит boss |
+| Worth. The Worth of your Great Hall directly  | Ценность. The Ценность of your Great Hall directly  |
+| Leatherworker: | Кожевник: |
+| Blacksmithing: | Кузнецing: |
+| Food | Еда |
+| Custom: | Свое: |
+| table | стол |
+| Woodcutter: | Дровосек: |
+| ramps and stairs.  | ramps and Лестница.  |
+| tower shield backing | tower щит Назадing |
+| enemy as their Squad Leader instead of  | enemy as their Squad Свинецer instead of  |
+| your gnomes get to work.  | наблюдая за работой гномов.  |
+| Sunset: 16:36 | Закат: 16:36 |
+| Blacksmith | Кузнец |
+| Depth distance scale | Глубина distance scale |
+| Tiny | Оловоy |
+| which will also provide more nourishment than  | which will also provide mруда nourishment than  |
+| well as enemies who threaten your gnomes.  | и новых опасных врагов.  |
+| soil wall | земля Стена |
+| Fighting: | Fighоловоg: |
+| pickaxe head | кирка head |
+| your gnomes will till any remaining untilled soil.  | your gnomes will till any remaining untilled земля.  |
+| More detailed information about Squads is  | Mруда detailed information about Squads is  |
+| Population Cap | Население Cap |
+| is room. Stockpiles have a Priority setting and  | is room. Stockpiles have a Priority setоловоg and  |
+| cutting wheel | cutоловоg wheel |
+| Weaver: | Ткач: |
+| settings. You can pause and unpause the game  | Вы можете ставить игру на паузу,  |
+| strawberry | земляника |
+| chairs, doors and torches.  | стулs, дверьs and факелes.  |
+| Overview | Сводка |
+| dirt floor | грязь Пол |
+| engraved wall | engraved Стена |
+| felling axe | топор |
+| Leatherworking: | Кожаworking: |
+| silica | кремнезем |
+| bronze | бронза |
+| pickaxe | кирка |
+| helmet | шлем |
+| Builder | Строитель |
+| soil | земля |
+| of a room, or used directly such as beds,  | of a room, or used directly such as кроватьs,  |
+| Rancher | Животновод |
+| Military | Армия |
+| Hammer: | Молот: |
+| Crossbow: | Арбалет: |
+| (8) Bonecarving | (8) Костьcarving |
+| Provided that there is an available bed, gnomes  | Provided that there is an available кровать, gnomes  |
+| log floor | бревно Пол |
+| fighting the closest enemy.  | fighоловоg the closest enemy.  |
+| There are 3 basic Formation options which  | There are 3 basic Formation Настройки which  |
+| quarters is, the more at ease the gnome  | quarters is, the mруда at ease the gnome  |
+| Each gnome needs to eat, drink and sleep and  | Гномам нужно есть, пить и спать,  |
+| there aren't any beds available, they will rest  | there aren't any кроватьs available, they will rest  |
+| crafting new items and are at the heart of  | crafоловоg new items and are at the heart of  |
+| Loading | Загрузка |
+| log | бревно |
+| decorative stone floor | decorative камень Пол |
+| Tailoring: | Портнойing: |
+| Walls block movement and floors provide  | Стенаs block movement and Полs provide  |
+| shield | щит |
+| Build Stairs Down | Build Лестница Down |
+| silver | серебро |
+| Gearboxes are large and require the floor to  | Gearboxes are large and require the Пол to  |
+| Assist Squad Leader - With this option set,  | Assist Squad Свинецer - With this option set,  |
+| you to filter the list with the options on the  | you to filter the list with the Настройки on the  |
+| Build Floor | Build Пол |
+| Back | Назад |
+| spiral engraved wall | spiral engraved Стена |
+| crossbow | арбалет |
+| statue | статуя |
+| Quarters will require a bed to be constructed  | Quarters will require a кровать to be constructed  |
+| Stairs Down | Лестница Down |
+| moon engraved floor | moon engraved Пол |
+| thatch wall | солома Стена |
+| be stocked before a lower priority (higher  | be stocked befруда a lower priority (higher  |
+| Stairs can be built free standing and require  | Лестница can be built free standing and require  |
+| leather strap | кожа strap |
+| Depth: 4 | Глубина: 4 |
+| Gnomoria is a sandbox management game and is  | Gnomoria — это симулятор управления гномами,  |
+| Stone | Камень |
+| Blacksmithing | Кузнецing |
+| New Game | Новая игра |
+| Tailoring | Портнойing |
+| crossbow bow | арбалет bow |
+| Build Wall | Build Стена |
+| Idle | Бездельники |
+| Resolution: | Разрешение: |
+| Dig Stairs Down | Dig Лестница Down |
+| gold | золото |
+| leather helm | кожа helm |
+| Audio | Аудио |
+| four poster bed | four poster кровать |
+| stairs up | Лестница up |
+| The Overview tab displays your total  | The Сводка tab displays your Всего  |
+| star engraved wall | star engraved Стена |
+| Bonecarver: | Резчик по кости: |
+| Potter: | Гончар: |
+| Builder: | Строитель: |
+| boot | ботинок |
+| statue and bronze armor is stronger than  | статуя and бронза armor is stronger than  |
+| warhammer | warмолот |
+| of some necessities like total counts of food,  | of some necessities like Всего counts of Еда,  |
+| wall | Стена |
+| copper pickaxe | медь кирка |
+| bone wall | кость Стена |
+| leather panel | кожа panel |
+| Idle: 9 | Бездельники: 9 |
+| (11) Armor Crafting | (11) Armor Crafоловоg |
+| ball-peen hammer | ball-peen молот |
+| (14) Metalworking | (14) Металлworking |
+| chiseled stone wall | chiseled камень Стена |
+| stone sword | камень меч |
+| on top of stairs, it allows them to reach  | on top of Лестница, it allows them to reach  |
+| Profession: Miner | Profession: Шахтер |
+| Idle: 0 | Бездельники: 0 |
+| Population: | Население: |
+| worn hand axe | worn топорик |
+| Basic Soldier | Basic Солдат |
+| skull helmet | skull шлем |
+| bed | кровать |
+| Pottery: | Гончарy: |
+| or to get help eating and drinking. At one time,  | or to get Помощь eaоловоg and Питьеing. At one time,  |
+| Picks best food over closest | Picks best Еда over closest |
+| stairs down | Лестница down |
+| SpaceBar | SpaceСлиток |
+| four poster bed frame | four poster кровать frame |
+| Depth: 2 | Глубина: 2 |
+| Assist Squad Leader | Assist Squad Свинецer |
+| wooden shield | wooden щит |
+| worn claymore | worn claymруда |
+| Woodcutting | Woodcutоловоg |
+| Groves have a Priority setting and higher  | Groves have a Priority setоловоg and higher  |
+| View events and combat reports | View События and combat reports |
+| leather bracer | кожа bracer |
+| Depth: 6 | Глубина: 6 |
+| Depth: 3 | Глубина: 3 |
+| clicking on a Farm will show the Farm options  | clicking on a Farm will show the Farm Настройки  |
+| metal floor | металл Пол |
+| block wall | block Стена |
+| orange wood crate (32/32) | апельсин ящик (32/32) |
+| bag | мешок |
+| leather greave | кожа поножи |
+| of recipes for crafting. Each recipe requires  | of recipes for crafоловоg. Each recipe requires  |
+| felling axe head | топор head |
+| ore | руда |
+| Weapon Crafting: | Weapon Crafоловоg: |
+| torch | факел |
+| Population | Население |
+| requires a wall for support or it will collapse.  | requires a Стена for support or it will collapse.  |
+| Miner: | Шахтер: |
+| Suspend | Пауза |
+| worn hammer | worn молот |
+| warhammer head | warмолот head |
+| workbench | верстак |
+| at anytime to manage your kingdom and watch  | чтобы управлять королевством,  |
+| associated with it as well as 1 or more  | associated with it as well as 1 or mруда  |
+| Food/Drink | Еда/Питье |
+| construction in the Great Hall adds to its total  | construction in the Great Hall adds to its Всего  |
+| water engraved floor | water engraved Пол |
+| golem core | golem cруда |
+| Metal | Металл |
+| Construction Worth: | Construction Ценность: |
+| Show Action Bar | Show Action Слиток |
+| Exit | Выход |
+| trees. Some trees, such as apples trees, can be  | trees. Some trees, such as яблокоs trees, can be  |
+| wood door | wood дверь |
+| stepped on and can be set by a Mechanic to be  | stepped on and can be set by a Механик to be  |
+| Metalworking: | Металлworking: |
+| Woodcutting: | Woodcutоловоg: |
+| mechanical wall | Механикal Стена |
+| tin | олово |
+| water engraved wall | water engraved Стена |
+| a skill to be used for crafting and only gnomes  | a skill to be used for crafоловоg and only gnomes  |
+| Smelting: | Smelоловоg: |
+| Personal Quarters are unique in that the Worth  | Personal Quarters are unique in that the Ценность  |
+| their food there to eat. If there are no  | their Еда there to eat. If there are no  |
+| a bed is still prefered over sleeping on the  | a кровать is still prefered over sleeping on the  |
+| The Military window shows information about  | The Армия window shows information about  |
+| lead | свинец |
+| star engraved floor | star engraved Пол |
+| (9) Blacksmithing | (9) Кузнецing |
+| Farmer | Фермер |
+| Your Ranchers will begin by herding unpastured  | Your Животноводs will begin by herding unpastured  |
+| shield backing | щит Назадing |
+| height but also depth. The current depth is  | height but also Глубина. The current Глубина is  |
+| build your kingdom, your overall worth will  | С ростом ценности королевства,  |
+| Stock items on this floor next if possible | Stock items on this Пол next if possible |
+| Smelting | Smelоловоg |
+| Weapon Crafting | Weapon Crafоловоg |
+| (10) Leatherworking | (10) Кожаworking |
+| metal | металл |
+| require an adjacent floor at the top of the  | require an adjacent Пол at the top of the  |
+| in a bed is better than the floor and sleeping in  | in a кровать is better than the Пол and sleeping in  |
+| statuette | статуяtte |
+| stone door | камень дверь |
+| total Worth of the Dormitory has no effect on  | Всего Ценность of the Dormitory has no effect on  |
+| Worth: 4 | Ценность: 4 |
+| Delete | Удалить |
+| increase, attracting more gnomes to join you as  | вы будете привлекать кочевников  |
+| Mechanic | Механик |
+| Drink | Питье |
+| Pastures have a Priority setting and higher  | Pastures have a Priority setоловоg and higher  |
+| Resume | Продолжить |
+| currently idle. The right side of this window  | currently Бездельники. The right side of this window  |
+| (27) Stonecarving | (27) Каменьcarving |
+| Gemcutting | Gemcutоловоg |
+| for specialization, such as a grove of apple  | for specialization, such as a grove of яблоко  |
+| Drink: 128 | Питье: 128 |
+| Workshop to craft. Crafting jobs can be set to  | Workshop to craft. Crafоловоg jobs can be set to  |
+| Stock Worth: | Stock Ценность: |
+| Replace Wall | Replace Стена |
+| worn greave | worn поножи |
+| the color. Some items like tables and chairs,  | the color. Some items like столs and стулs,  |
+| by creating jobs for them, designating areas  | создавая задачи и зоны,  |
+| designated over dirt. Each Grove is assigned a  | designated over грязь. Each Grove is assigned a  |
+| designated over dirt. Each Farm is assigned a  | designated over грязь. Each Farm is assigned a  |
+| Short walls | Short Стенаs |
+| something to stand on. Ramps and stairs both  | something to stand on. Ramps and Лестница both  |
+| Farmer: | Фермер: |
+| gold statue will be more valuable than a silver  | золото статуя will be mруда valuable than a серебро  |
+| reused when creating a new world to generate  | reused when creaоловоg a new world to generate  |
+| stairs by directly moving up or down before  | Лестница by directly moving up or down befруда  |
+| Gameplay | Геймплей |
+| Your only objective is to help your gnomes  | Ваша цель — помочь гномам выжить  |
+| mechanical wall or opening and closing a hatch.  | Механикal Стена or opening and closing a hatch.  |
+| General overview | General Сводка |
+| themselves, provided that there are food and  | themselves, provided that there are Еда and  |
+| (8) Weapon Crafting | (8) Weapon Crafоловоg |
+| Armorer: | Бронник: |
+| becomes resulting in better sleep. The quality  | becomes resulоловоg in better sleep. The quality  |
+| Prospector: | Старатель: |
+| Butcher: | Мясник: |
+| wheelbarrow | wheelслитокrow |
+| Masonry: | Каменщикry: |
+| without food or drink. Sometimes your gnomes  | without Еда or Питье. Sometimes your gnomes  |
+| Butchery: | Мясникy: |
+| carved wall | carved Стена |
+| Bonecarving: | Костьcarving: |
+| Increase depth | Increase Глубина |
+| Tinkering | Оловоkering |
+| Engineer: | Инженер: |
+| start by planting tree clippings. Once a tree  | start by planоловоg tree clippings. Once a tree  |
+| Once a Tinker Bench has been constructed,  | Once a Оловоker Bench has been constructed,  |
+| triggered it requires a gnome with the Mechanic  | triggered it requires a gnome with the Механик  |
+| Worth: 0 | Ценность: 0 |
+| room adds its value to the rooms total value.  | room adds its value to the rooms Всего value.  |
+| hammer | молот |
+| skill to reset it before it can be used again.  | skill to reset it befруда it can be used again.  |
+| will go to a hospital bed when they are hungry  | will go to a hospital кровать when they are hungry  |
+| attaching gears to random objects, hammering  | attaching gears to random objects, молотing  |
+| Doctor. Gnomes with the Medic skill enabled will  | Doctor. Gnomes with the Медик skill enabled will  |
+| Load Game | Загрузить игру |
+| Clean Floor | Clean Пол |
+| smooth stone floor | smooth камень Пол |
+| Metalworker: | Металлург: |
+| Gardener: | Садовник: |
+| Total Worth: | Всего Ценность: |
+| mold | форма |
+| Tinker | Оловоker |
+| automaton core | automaton cруда |
+| Save and Exit | Сохранить and Выход |
+| The first thing you'll see is a general overview  | The first thing you'll see is a general Сводка  |
+| moon engraved wall | moon engraved Стена |
+| Joined: 1st day of Spring, Year 1 | Joined: 1st день Весна, Год 1 |
+| and are required for a mechanical system to  | and are required for a Механикal system to  |
+| chiseled stone floor | chiseled камень Пол |
+| Butchery | Мясникy |
+| Mouse Controls | Mouse Управление |
+| Replace Floor | Replace Пол |
+| bed frame | кровать frame |
+| Carpenter: | Плотник: |
+| When creating Craft jobs at a workshop,  | When creaоловоg Craft jobs at a workshop,  |
+| Suspended so that gnomes ignore it and set a  | Паузаed so that gnomes ignруда it and set a  |
+| (9) Prospecting | (9) Prospecоловоg |
+| that gnome will ignore that job.  | that gnome will ignруда that job.  |
+| food | Еда |
+| Furniture that can be used to store items. They  | Furniture that can be used to stруда items. They  |
+| there are beds in it. Like other designations,  | there are кроватьs in it. Like other designations,  |
+| Vertical Sync | Верт. синхронизация |
+| worn shield | worn щит |
+| (11) Butchery | (11) Мясникy |
+| and requires a gnome with the Mechanic skill to  | and requires a gnome with the Механик skill to  |
+| plank wall | доска Стена |
+| hand axe head | топорик head |
+| worn boot | worn ботинок |
+| worn helmet | worn шлем |
+| before a lower priority (higher number). Farms  | befруда a lower priority (higher number). Farms  |
+| worn warhammer | worn warмолот |
+| an open chair that is next to a table and bring  | an open стул that is next to a стол and bring  |
+| Tinkering: | Оловоkering: |
+| Save every | Сохранить every |
+| and drink provides increased nourishment for  | and Питье provides increased nourishment for  |
+| soil floor | земля Пол |
+| copper armor.  | медь armor.  |
+| tower shield | tower щит |
+| worn sword | worn меч |
+| orange | апельсин |
+| stone floor | камень Пол |

@@ -17,7 +17,6 @@ namespace GnomoriaTranslator
         public static string LogPath = "Gnomoria_en_ru.json";
         public static Dictionary<string, Texture2D> TextureCache = new Dictionary<string, Texture2D>();
         
-        // ВОЗВРАТ ШРИФТА: Стандартный Arial 12
         public static Font SysFont = new Font("Arial", 12, FontStyle.Regular, GraphicsUnit.Pixel);
         public static SolidBrush SysBrush = new SolidBrush(System.Drawing.Color.White);
 
@@ -29,13 +28,14 @@ namespace GnomoriaTranslator
         {
             try
             {
-                File.WriteAllText("TranslatorHook.log", "Hook v3.3 [Arial Restore] Init at " + DateTime.Now.ToString() + "\n");
+                File.WriteAllText("TranslatorHook.log", "Hook v3.4 [Safe Mode] Init at " + DateTime.Now.ToString() + "\n");
                 string dir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
                 string fullPath = Path.Combine(dir, LogPath);
                 
                 if (File.Exists(fullPath))
                 {
-                    string json = File.ReadAllText(fullPath);
+                    // Явная загрузка UTF-8
+                    string json = File.ReadAllText(fullPath, System.Text.Encoding.UTF8);
                     Translations = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(json) ?? new Dictionary<string, string>();
                     foreach(var k in Translations.Keys) FoundStrings.Add(k);
                     Log("Successfully loaded " + Translations.Count + " entries.");
@@ -48,12 +48,10 @@ namespace GnomoriaTranslator
             catch (Exception ex) { Log("Init Error: " + ex.ToString()); }
         }
 
+        // ВАЖНО: Мы больше не сохраняем строки автоматически, чтобы не портить файл
         public static void SaveStrings()
         {
-            try { 
-                string dir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                File.WriteAllText(Path.Combine(dir, LogPath), Newtonsoft.Json.JsonConvert.SerializeObject(Translations, Newtonsoft.Json.Formatting.Indented)); 
-            } catch {}
+            // Метод заглушен для стабильности
         }
 
         public static Vector2 AdjustPosition(string text, Vector2 pos)
@@ -98,7 +96,6 @@ namespace GnomoriaTranslator
     public static class Patch_DS1 {
         static bool Prefix(SpriteBatch __instance, string text, Vector2 position, Microsoft.Xna.Framework.Color color) {
             if (string.IsNullOrEmpty(text)) return true;
-            if (!Hook.FoundStrings.Contains(text)) { Hook.FoundStrings.Add(text); Hook.Translations[text] = text; Hook.SaveStrings(); }
             if (Hook.Translations.TryGetValue(text, out string t) && text != t) {
                 Texture2D tex = Hook.GetTextTexture(__instance.GraphicsDevice, t);
                 if (tex != null) { __instance.Draw(tex, Hook.AdjustPosition(text, position), color); return false; }
@@ -111,7 +108,6 @@ namespace GnomoriaTranslator
     public static class Patch_DS2 {
         static bool Prefix(SpriteBatch __instance, string text, Vector2 position, Microsoft.Xna.Framework.Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth) {
             if (string.IsNullOrEmpty(text)) return true;
-            if (!Hook.FoundStrings.Contains(text)) { Hook.FoundStrings.Add(text); Hook.Translations[text] = text; Hook.SaveStrings(); }
             if (Hook.Translations.TryGetValue(text, out string t) && text != t) {
                 Texture2D tex = Hook.GetTextTexture(__instance.GraphicsDevice, t);
                 if (tex != null) { __instance.Draw(tex, Hook.AdjustPosition(text, position), null, color, rotation, origin, scale, effects, layerDepth); return false; }
@@ -125,10 +121,9 @@ namespace GnomoriaTranslator
         static bool Prefix(SpriteBatch __instance, System.Text.StringBuilder text, Vector2 position, Microsoft.Xna.Framework.Color color) {
             if (text == null || text.Length == 0) return true;
             string s = text.ToString();
-            if (!Hook.FoundStrings.Contains(s)) { Hook.FoundStrings.Add(s); Hook.Translations[s] = s; Hook.SaveStrings(); }
             if (Hook.Translations.TryGetValue(s, out string t) && s != t) {
                 Texture2D tex = Hook.GetTextTexture(__instance.GraphicsDevice, t);
-                if (tex != null) { __instance.Draw(tex, Hook.AdjustPosition(s, position), color); return false; }
+                if (tex != null) { __instance.Draw(tex, position, color); return false; }
             }
             return true;
         }
@@ -139,10 +134,9 @@ namespace GnomoriaTranslator
         static bool Prefix(SpriteBatch __instance, System.Text.StringBuilder text, Vector2 position, Microsoft.Xna.Framework.Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth) {
             if (text == null || text.Length == 0) return true;
             string s = text.ToString();
-            if (!Hook.FoundStrings.Contains(s)) { Hook.FoundStrings.Add(s); Hook.Translations[s] = s; Hook.SaveStrings(); }
             if (Hook.Translations.TryGetValue(s, out string t) && s != t) {
                 Texture2D tex = Hook.GetTextTexture(__instance.GraphicsDevice, t);
-                if (tex != null) { __instance.Draw(tex, Hook.AdjustPosition(s, position), null, color, rotation, origin, scale, effects, layerDepth); return false; }
+                if (tex != null) { __instance.Draw(tex, position, null, color, rotation, origin, scale, effects, layerDepth); return false; }
             }
             return true;
         }
