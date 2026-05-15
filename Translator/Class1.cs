@@ -16,35 +16,44 @@ namespace GnomoriaTranslator
         public static Dictionary<string, string> Translations = new Dictionary<string, string>();
         public static string LogPath = "Gnomoria_en_ru.json";
         public static Dictionary<string, Texture2D> TextureCache = new Dictionary<string, Texture2D>();
+        
+        // ВОЗВРАТ ШРИФТА: Стандартный Arial 12
         public static Font SysFont = new Font("Arial", 12, FontStyle.Regular, GraphicsUnit.Pixel);
         public static SolidBrush SysBrush = new SolidBrush(System.Drawing.Color.White);
+
+        private static void Log(string msg) {
+            try { File.AppendAllText("TranslatorHook.log", msg + "\n"); } catch {}
+        }
 
         public static void Init()
         {
             try
             {
-                File.WriteAllText("TranslatorHook.log", "Hook v3.0 [Omni] Init\n");
-                string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, LogPath);
+                File.WriteAllText("TranslatorHook.log", "Hook v3.3 [Arial Restore] Init at " + DateTime.Now.ToString() + "\n");
+                string dir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                string fullPath = Path.Combine(dir, LogPath);
                 
                 if (File.Exists(fullPath))
                 {
-                    string rawJson = File.ReadAllText(fullPath);
-                    Translations = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(rawJson) ?? new Dictionary<string, string>();
+                    string json = File.ReadAllText(fullPath);
+                    Translations = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(json) ?? new Dictionary<string, string>();
                     foreach(var k in Translations.Keys) FoundStrings.Add(k);
-                    File.AppendAllText("TranslatorHook.log", "Loaded " + Translations.Count + " translations.\n");
+                    Log("Successfully loaded " + Translations.Count + " entries.");
                 }
                 
                 var harmony = new Harmony("com.lecoo.gnomoriatranslator");
                 harmony.PatchAll();
-                File.AppendAllText("TranslatorHook.log", "Harmony: 4/4 Overloads Patched.\n");
+                Log("Harmony Patched Successfully.");
             }
-            catch (Exception ex) { File.AppendAllText("TranslatorHook.log", "Init Error: " + ex.ToString() + "\n"); }
+            catch (Exception ex) { Log("Init Error: " + ex.ToString()); }
         }
 
         public static void SaveStrings()
         {
-            try { File.WriteAllText(LogPath, Newtonsoft.Json.JsonConvert.SerializeObject(Translations, Newtonsoft.Json.Formatting.Indented)); }
-            catch { }
+            try { 
+                string dir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                File.WriteAllText(Path.Combine(dir, LogPath), Newtonsoft.Json.JsonConvert.SerializeObject(Translations, Newtonsoft.Json.Formatting.Indented)); 
+            } catch {}
         }
 
         public static Vector2 AdjustPosition(string text, Vector2 pos)
