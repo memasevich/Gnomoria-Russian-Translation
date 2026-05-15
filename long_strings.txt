@@ -1,0 +1,382 @@
+Effects how far gnomes will travel for better food and drink
+Remove floor and mine section below into stairs
+Gnomoria is a sandbox management game and is 
+played by indirectly controlling your gnomes 
+by creating jobs for them, designating areas 
+of the world as specific places and adjusting 
+settings. You can pause and unpause the game 
+at anytime to manage your kingdom and watch 
+Each gnome needs to eat, drink and sleep and 
+it's your job to help provide for them. As you 
+build your kingdom, your overall worth will 
+increase, attracting more gnomes to join you as 
+well as enemies who threaten your gnomes. 
+Your only objective is to help your gnomes 
+survive in this harsh world for as long as 
+Gnomoria takes place in a randomly generated 
+3D world with many resources to discover and 
+The world is split into a 3D grid of cells and is 
+fully deformable. Each cell can be harvested 
+for its resource and used to be rebuilt 
+elsewhere or crafted into new items. 
+Gnomes in a Squad behave based on that 
+Squad's Formation. Every Squad can be set to 
+use the same Formation or a new Formation can 
+Formations are made up of 5 Positions which 
+are defined in the Positions window. These 
+Positions can be the same or different. 
+Positions tell individual Squad Members how to 
+behave while the Formation tells the Squad what 
+There are 3 basic Formation options which 
+Perform attack orders - With this option set, 
+gnomes will seek out and fight enemies that you 
+Defend gnomes - Formations with this option 
+will automatically track down and fight enemies 
+that are engaged in combat with other gnomes. 
+Avoid enemies - This option changes the Squads 
+default behavior of attacking enemies on 
+sight, to avoiding any enemy in sight. 
+Positions have a Uniform, which tells the Squad 
+Member what they are allowed to equip when 
+they are in this Position. There are also a few 
+Pursue lost targets - If line of sight to the 
+current target is lost, Squad Members will move 
+Maintain distance - Squad Members will attempt 
+to stay at maximum weapon range from their 
+Retreat if bleeding - Squad Members will 
+disengage from combat to heal bleeding 
+Assist Squad Leader - With this option set, 
+Squad Members will always target the same 
+enemy as their Squad Leader instead of 
+Additionally, each Position can set a Perk 
+which will give a unique bonus when certain 
+A Uniform defines what a gnome is allowed to 
+equip. Uniforms can be set to only equip 
+specific items, materials or only items of a 
+Additionally, each Formation can set a Perk 
+which will give every Squad Member a unique 
+bonus when certain conditions are met. 
+When starting out, gnomes don't know anything 
+about Mechanisms, however, gnomes love to 
+Once a Tinker Bench has been constructed, 
+gnomes with the Tinkering skill will get to work 
+attaching gears to random objects, hammering 
+things and eventually somehow, unlocking new 
+Links are Mechanisms whose sole purpose is to 
+Axles are straight line connections that can go 
+horizontally or vertically. Horizontal axles 
+can be built directly into the floor without 
+Gearboxes allow axles to connect from 
+different directions as well as intersect. 
+Gearboxes are large and require the floor to 
+be removed before it can be set in place. 
+Toggle switches are a special kind of link that 
+can connect or disconnect Mechanisms around 
+it. The Lever can be manually flipped on or off 
+and requires a gnome with the Mechanic skill to 
+operate. Pressure Plates flip on or off when 
+stepped on and can be set by a Mechanic to be 
+Power Sources unsurprisingly provide power 
+and are required for a mechanical system to 
+operate. Some Power Sources are operated 
+manually, while others are automatic or even 
+Devices have different functions when 
+powered or unpowered, such as moving a 
+mechanical wall or opening and closing a hatch. 
+Traps are a special kind of Mechanism that 
+don't connect to other Mechanisms. Traps are 
+self contained and all of their parts are 
+When a trap is set, it already has the 
+necessary power and parts to be triggered by 
+an enemy. The catch, is that once it is 
+triggered it requires a gnome with the Mechanic 
+skill to reset it before it can be used again. 
+Workshops are where your gnomes will go to 
+craft new items. Each Workshop has its own set 
+of recipes for crafting. Each recipe requires 
+a skill to be used for crafting and only gnomes 
+with that skill enabled will be allowed to craft 
+When a gnome accepts the craft job, they will 
+gather the required items and bring them to the 
+Workshop to craft. Crafting jobs can be set to 
+"Repeat" which will repeatedly craft the item 
+as long as the requirements are met. Craft jobs 
+can also be set to "Craft To" a specified 
+number, and gnomes will automatically craft 
+that item when the current quantity in stock is 
+When creating Craft jobs at a workshop, 
+specific materials can be selected per 
+ingredient. The first ingredient in the recipe 
+usually determines the material type of the 
+newly crafted item. In some cases, such as 
+crafting metal alloys or turning logs into coal, 
+the newly crafted item will have a new material. 
+An item's material is what determines its 
+properties. For many items, this is primarily 
+the color. Some items like tables and chairs, 
+can be crafted from wood or stone and are 
+visually different. The material also plays a 
+part in determining the value of an item as well 
+as combat related properties. For example, a 
+gold statue will be more valuable than a silver 
+statue and bronze armor is stronger than 
+Terrain constructions add to the world and 
+typically change how everything moves through 
+the world. This includes building walls, floors, 
+Walls block movement and floors provide 
+something to stand on. Ramps and stairs both 
+enable vertical travel in the world. A ramp 
+requires a wall for support or it will collapse. 
+Gnomes travel across ramps diagonally and 
+require an adjacent floor at the top of the 
+Stairs can be built free standing and require 
+no additional support. Gnomes travel across 
+stairs by directly moving up or down before 
+continuing, thus making stairs slightly slower 
+than ramps. However, since a gnome can stand 
+on top of stairs, it allows them to reach 
+otherwise innaccesible areas and build new 
+Furniture are constructions that are typically 
+used for decoration but can also serve a 
+purpose. They can be used to boost the value 
+of a room, or used directly such as beds, 
+Most furniture are first crafted in a workshop 
+and then placed in the world through the Build 
+Storage constructions are special types of 
+Furniture that can be used to store items. They 
+can only be placed in a Stockpile and are 
+automatically used when stocking items into 
+Workshops are required to craft new items. 
+Each Workshop has a set of recipes for 
+crafting new items and are at the heart of 
+The Stockpile designation is used to instruct 
+your gnomes where to place items. A Stockpiles 
+main setting is selecting which items are 
+allowed to be placed in its area. Stockpiles are 
+an important designation for managing a 
+Gnomes with the Hauling skill enabled, will move 
+allowed items to this Stockpile, provided there 
+is room. Stockpiles have a Priority setting and 
+higher priority (lower number) Stockpiles will 
+be stocked before a lower priority (higher 
+number). Stockpiles can also be renamed and 
+temporarily Suspended so that gnomes ignore 
+Normally, 1 item can be placed in each square 
+until the Stockpile is full. Storage items, such 
+as crates, barrels and bags, can be built on 
+Stockpiles so that each square can hold 
+The Farm designation is used to instruct your 
+gnomes where to plant crops, such as wheat, 
+strawberries and cotton. Farms must be 
+designated over dirt. Each Farm is assigned a 
+specific Crop and gnomes with the Farming skill 
+enabled will work the Farm automatically. 
+Your Farmers will begin by harvesting any 
+crops that are ready. If there are no crops to 
+harvest they will plant seeds on tilled soil. If 
+there is no other work to be done on the Farm, 
+your gnomes will till any remaining untilled soil. 
+Farms have a Priority setting and higher 
+priority (lower number) Farms will be worked 
+before a lower priority (higher number). Farms 
+can also be renamed and temporarily Suspended 
+The Pasture designation is used to instruct 
+your gnomes where to keep livestock, such as 
+yaks, alpacas and emus. Pastures must be 
+designated over grass. Each Pasture is 
+assigned a specific animal and gnomes with the 
+Animal Husbandry skill enabled will work the 
+Pasture automatically. Each animal takes up 
+space in the pasture and different types of 
+animals have different space requirements. 
+Your Ranchers will begin by herding unpastured 
+animals into the Pasture. If there are no 
+roaming livestock they will tend to the animals 
+by sheering wool or milking them. Animals that 
+share a Pasture will breed on their own. 
+Pastures have a Priority setting and higher 
+priority (lower number) Pastures will be worked 
+before a lower priority (higher number). 
+Pastures can also be renamed, temporarily 
+Suspended so that gnomes ignore it and set a 
+limit of males and females allowed. 
+The Grove designation is used to instruct your 
+gnomes where to plant trees. Groves must be 
+designated over dirt. Each Grove is assigned a 
+specific tree and gnomes will work the Grove 
+Gnomes with the Horticulture skill enabled will 
+start by planting tree clippings. Once a tree 
+has grown, gnomes with the Horticulture skill 
+will cut clippings to be used for growing more 
+trees. Some trees, such as apples trees, can be 
+harvested and Gnomes with the Farming skill will 
+pick fruit on the trees. Finally, gnomes with 
+Woodcutting will fell trees in your Grove. 
+Each Grove job can be turned on or off to allow 
+for specialization, such as a grove of apple 
+trees that only allows fruit to be picked. 
+Groves have a Priority setting and higher 
+priority (lower number) Groves will be worked 
+Groves can also be renamed and temporarily 
+Suspended so that gnomes ignore it. 
+Personal Quarters are where your gnomes will 
+first look when they need sleep. A Personal 
+Quarters will require a bed to be constructed 
+If a gnome does not already have a Personal 
+Quarter, they will automatically claim a vacant 
+one as their own. You can also manually assign 
+or reassign Personal Quarters as you see fit. 
+Personal Quarters are unique in that the Worth 
+of the room directly effects how well rested 
+the gnome becomes. Each construction in the 
+room adds its value to the rooms total value. 
+The higher the room value, the better sleep the 
+room provides and the longer a gnome can go 
+A Dormitory is another room where gnomes will 
+go when they need sleep. Unlike the Personal 
+Quarters, a Dormitory cannot be assigned to a 
+specific gnome and will be shared by all 
+Provided that there is an available bed, gnomes 
+without a Personal Quarters will sleep in a 
+Dormitory. Unlike the Personal Quarters, the 
+total Worth of the Dormitory has no effect on 
+how well the gnome sleeps. However, sleeping in 
+a bed is still prefered over sleeping on the 
+Dining Rooms are used to designate where your 
+gnomes are allowed to eat. Gnomes will look for 
+an open chair that is next to a table and bring 
+their food there to eat. If there are no 
+available chairs, gnomes will stand and eat but 
+One Dining Room can be selected to be the Great 
+Hall. Gnomes without work will idle in the Great 
+Hall and wait for something to do. Each 
+construction in the Great Hall adds to its total 
+Worth. The Worth of your Great Hall directly 
+contributes to attracing wandering gnomads to 
+The Hospital is where gnomes will go for healing 
+or to get help eating and drinking. At one time, 
+a Hospital can provide for as many gnomes as 
+there are beds in it. Like other designations, 
+Hospitals can have a Priority set as well as be 
+Normally, gnomes will be able to heal themselves 
+with bandages on their own. If a gnome has lost 
+the use of both hands, or has a serious wound, 
+they will go to a hospital bed and wait for a 
+Doctor. Gnomes with the Medic skill enabled will 
+bring bandages to the injured gnome and heal 
+If a gnome has lost the use of both hands, they 
+can no longer feed themselves. These gnomes 
+will go to a hospital bed when they are hungry 
+or thirsty. Gnomes with the Caretaking skill 
+enabled will bring food or drink to these 
+Guard Stations are designations that specify 
+where a Military Squad should defend. Gnomes 
+in the assigned Squad will roam through out the 
+Guard Stations can be renamed to more easily 
+Unlike other Designations, Patrol Routes are 
+made up of a series of waypoints instead of 1 
+large area. Like other Military Designations, a 
+Squad is assigned to a Patrol Route and Patrol 
+Gnomes in the assigned Squad will follow the 
+Patrol Route from point to point. Upon reaching 
+the end of the Patrol Route, they will turn 
+around and follow the route in reverse. If the 
+Loop option is selected, gnomes will instead 
+move from the last point back to the first and 
+Your gnomes will need food and drink to surive 
+and rest to keep working hard. Gnomes will feed 
+themselves, provided that there are food and 
+drink in supply. Crafting more advanced food 
+and drink provides increased nourishment for 
+your gnomes -- meaning they can go longer 
+without food or drink. Sometimes your gnomes 
+will also craft higher quality food and drinks, 
+which will also provide more nourishment than 
+Eventually your gnomes will get tired and need 
+to rest. Gnomes prefer to sleep in comfort over 
+resting on the cold hard floor. However, if 
+there aren't any beds available, they will rest 
+their eyes for a few minutes anywhere they 
+Gnomes take pride in their living space and 
+prefer to have their own personal quarters in 
+your kingdom. The more valuable the personal 
+quarters is, the more at ease the gnome 
+becomes resulting in better sleep. The quality 
+of sleep a gnome gets will let them work for 
+longer before needing to sleep again. Sleeping 
+in a bed is better than the floor and sleeping in 
+a nice personal room will provide better sleep 
+Gnomes have different skill levels in many 
+areas as well as general attributes which 
+effect all skills. Each job has 1 skill 
+associated with it as well as 1 or more 
+attributes. When a gnome completes a job, they 
+become more experienced in that skill and train 
+their attributes. Higher skill levels allow 
+Each gnome is assigned a profession. 
+Professions can be shared among different 
+gnomes or customized for each gnome. A 
+profession is just a collection of which skills 
+gnomes are allowed to use. If a job requires a 
+skill that a gnome isn't allowed to use, then 
+You can pan your view around the world with the 
+keyboard (default WASD) as well as with the 
+mouse by left or right clicking and dragging. 
+You can also rotate between 4 viewing angles 
+with the keyboard (default , and .). 
+Gnomoria is a world with not just width and 
+height but also depth. The current depth is 
+displayed in the upper left corner of the 
+screen. You can move the current depth up or 
+down with the scroll wheel on your mouse or the 
+Left clicking on the ground will display a list 
+of everything at that position. Clicking on 
+anything in that list will provide more 
+Right clicking on some objects will bring up a 
+menu for interacting with it. For example, right 
+clicking on a Farm will show the Farm options 
+and details about that Farm. Otherwise, right 
+clicking will bring up an action menu for 
+creating jobs and interacting with the world. 
+The Kingdom menu shows overall information 
+Here you will find the name of your kingdom, 
+game difficulty and total Kingdom Worth. The 
+World Seed is also displayed here and can be 
+reused when creating a new world to generate 
+There is also overall information about your 
+workshops, farms, pastures and rooms. 
+This is where you can see information about 
+The first thing you'll see is a general overview 
+of some necessities like total counts of food, 
+drink, weapons and armor. The Stockpiles tab 
+will list all stockpiles you've created and allow 
+you to filter the list with the options on the 
+Selecting items or categories on the left of the 
+Items tab will display quantities of each item on 
+the right as well as a break down of each item 
+The Population menu provides detailed 
+information about your gnomes and their 
+The Overview tab displays your total 
+population as well as number of gnomes who are 
+currently idle. The right side of this window 
+shows how many gnomes have been selected for 
+The Status tab lists all gnomes and their 
+current status. Clicking on the name of a gnome 
+will bring up detailed information about that 
+gnome. Likewise, clicking on a job will bring up 
+The Assign tab is where you can assign each 
+The Professions tab is where you can alter and 
+create new Professions. Each gnome is 
+assigned a profession which outlines what jobs 
+they are allowed to perform. Each job has a 
+skill that is associated with it. For example, 
+only gnomes with a profession that has Mining 
+selected will be allowed to carry out any Mining 
+The Military window shows information about 
+your Squads and their current assignments. 
+More detailed information about Squads is 
+The Events window provides of log of various 
+events that can be viewed by date. There is 
+also a detailed breakdown of each battle in the 
+Stock items on this floor next if possible
+A pine crate. Used to store various items. 
