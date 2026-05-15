@@ -23,40 +23,30 @@ namespace GnomoriaTranslator
         {
             try
             {
-                File.WriteAllText("TranslatorHook.log", "Hook v2.4 Init started at " + DateTime.Now.ToString() + "\n");
-                
+                File.WriteAllText("TranslatorHook.log", "Hook v2.6 [StringBuilder Enabled] started\n");
                 string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, LogPath);
                 if (File.Exists(fullPath))
                 {
                     string json = File.ReadAllText(fullPath);
                     Translations = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(json) ?? new Dictionary<string, string>();
                     foreach(var k in Translations.Keys) FoundStrings.Add(k);
-                    File.AppendAllText("TranslatorHook.log", "Loaded " + Translations.Count + " translations.\n");
+                    File.AppendAllText("TranslatorHook.log", "Loaded " + Translations.Count + " strings.\n");
                 }
-
                 var harmony = new Harmony("com.lecoo.gnomoriatranslator");
                 harmony.PatchAll();
-                File.AppendAllText("TranslatorHook.log", "Harmony Patched Successfully (4 overloads enabled)\n");
             }
-            catch (Exception ex) 
-            { 
-                File.AppendAllText("TranslatorHook.log", "Init Error: " + ex.ToString() + "\n"); 
-            }
+            catch (Exception ex) { File.AppendAllText("TranslatorHook.log", "Init Error: " + ex.Message + "\n"); }
         }
 
         public static void SaveStrings()
         {
-            try
-            {
-                var json = Newtonsoft.Json.JsonConvert.SerializeObject(Translations, Newtonsoft.Json.Formatting.Indented);
-                File.WriteAllText(LogPath, json);
-            }
+            try { File.WriteAllText(LogPath, Newtonsoft.Json.JsonConvert.SerializeObject(Translations, Newtonsoft.Json.Formatting.Indented)); }
             catch { }
         }
 
         public static Vector2 AdjustPosition(string originalText, Vector2 pos)
         {
-            if (originalText != null && originalText.Contains("v1.0")) return new Vector2(pos.X - 190f, pos.Y);
+            if (originalText != null && originalText.Contains("v1.0")) return new Vector2(pos.X - 145f, pos.Y);
             return pos;
         }
 
@@ -70,21 +60,18 @@ namespace GnomoriaTranslator
                     SizeF size = g.MeasureString(text, SysFont);
                     int width = (int)Math.Ceiling(size.Width + 4);
                     int height = (int)Math.Ceiling(size.Height + 2);
-                    if (width <= 0) width = 1;
-                    if (height <= 0) height = 1;
-
-                    using (Bitmap renderBmp = new Bitmap(width, height))
+                    using (Bitmap renderBmp = new Bitmap(width > 0 ? width : 1, height > 0 ? height : 1))
                     using (Graphics renderG = Graphics.FromImage(renderBmp))
                     {
                         renderG.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
                         renderG.Clear(System.Drawing.Color.Transparent);
                         renderG.DrawString(text, SysFont, SysBrush, 0, 0);
-                        tex = new Texture2D(device, width, height, false, SurfaceFormat.Color);
-                        Microsoft.Xna.Framework.Color[] colorData = new Microsoft.Xna.Framework.Color[width * height];
-                        for (int y = 0; y < height; y++)
-                            for (int x = 0; x < width; x++) {
+                        tex = new Texture2D(device, renderBmp.Width, renderBmp.Height, false, SurfaceFormat.Color);
+                        Microsoft.Xna.Framework.Color[] colorData = new Microsoft.Xna.Framework.Color[renderBmp.Width * renderBmp.Height];
+                        for (int y = 0; y < renderBmp.Height; y++)
+                            for (int x = 0; x < renderBmp.Width; x++) {
                                 System.Drawing.Color c = renderBmp.GetPixel(x, y);
-                                colorData[y * width + x] = new Microsoft.Xna.Framework.Color(c.R, c.G, c.B, c.A);
+                                colorData[y * renderBmp.Width + x] = new Microsoft.Xna.Framework.Color(c.R, c.G, c.B, c.A);
                             }
                         tex.SetData(colorData);
                         TextureCache[text] = tex;
