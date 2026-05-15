@@ -2,30 +2,39 @@ import json
 import re
 
 def get_master_map():
-    # Massive hardcoded map from all previous sessions
     return {
+        # --- ТЕКСТ ОБУЧЕНИЯ И ПОМОЩИ ---
+        "Gnomoria is a sandbox management game and is ": "Gnomoria — это песочница и симулятор управления, ",
+        "played by indirectly controlling your gnomes ": "где вы косвенно управляете гномами, ",
+        "by creating jobs for them, designating areas ": "создавая задачи, размечая зоны ",
+        "of the world as specific places and adjusting ": "и настраивая правила жизни. ",
+        "settings. You can pause and unpause the game ": "Вы можете ставить игру на паузу в любой момент, ",
+        "at anytime to manage your kingdom and watch ": "чтобы управлять королевством или наблюдать, ",
+        "your gnomes get to work. ": "как гномы трудятся. ",
+        "Each gnome needs to eat, drink and sleep and ": "Каждому гному нужно есть, пить и спать, ",
+        "it's your job to help provide for them. As you ": "и ваша задача — обеспечить их этим. По мере ",
+        "build your kingdom, your overall worth will ": "роста королевства растет его ценность, ",
+        "increase, attracting more gnomes to join you as ": "привлекая новых гномадов и, увы, врагов, ",
+        "well as enemies who threaten your gnomes. ": "которые будут вам угрожать. ",
+        "Your only objective is to help your gnomes ": "Ваша единственная цель — помочь гномам ",
+        "survive in this harsh world for as long as ": "выживать в этом суровом мире так долго, ",
+        "possible. ": "как это возможно. ",
+        "Gnomoria takes place in a randomly generated ": "Действие происходит в случайно сгенерированном ",
+        "3D world with many resources to discover and ": "3D-мире с ресурсами для добычи. ",
+        "harvest. ": " ",
+        "The world is split into a 3D grid of cells and is ": "Мир разбит на 3D-сетку клеток и полностью ",
+        "fully deformable. Each cell can be harvested ": "изменяем. Любую клетку можно вскопать ",
+        "for its resource and used to be rebuilt ": "и использовать материалы для стройки ",
+        "elsewhere or crafted into new items. ": "или крафта новых предметов. ",
+        
+        # --- СТАНДАРТНЫЙ СЛОВАРЬ (МАСТЕР) ---
         "New Game": "Новая игра", "Options": "Настройки", "Steam Workshop": "Мастерская Steam",
         "Exit": "Выход", "v1.0": "v0.0.2 | memasevich 2026", "Controls": "Управление",
         "Gameplay": "Геймплей", "Audio": "Аудио", "Video": "Видео", "Display:": "Дисплей:",
         "Windowed": "Оконный", "Resolution:": "Разрешение:", "Custom:": "Свое:",
         "Vertical Sync": "Верт. синхронизация", "Back": "Назад", "Apply": "Применить",
-        "Music Volume:": "Громкость музыки:", "Effects Volume:": "Громкость эффектов:",
-        "Save every": "Автосохранение каждые", "days": "дня", "Pause": "Пауза",
-        "enemies when spotted": "врагов при обнаружении", "gnomads": "гномадов",
-        "merchants": "торговцев", "craft item jobs": "задачи на крафт",
-        "Depth": "Глубина", "Nourishment": "Сытость", "Weight": "Вес",
-        "Closest": "Ближайшая", "Best": "Лучшая", "Show Action Bar": "Показать панель действий",
-        "Show Stockpiles": "Показать склады", "Default": "По умолчанию", "Save": "Сохранить",
-        "Rotate": "Повернуть", "item": "предмет", "Short walls": "Низкие стены",
-        "Hidden cells": "Скрытые клетки", "Show axles": "Показать оси", "Show darkness": "Показать темноту",
-        "Pan up": "Камера вверх", "Pan down": "Камера вниз", "Pan left": "Камера влево", "Pan right": "Камера вправо",
-        "Kingdom Name": "Имя королевства", "Randomize": "Случайно", "Size": "Размер",
-        "Standard": "Стандарт", "Difficulty": "Сложность", "Normal": "Обычная", "Generate": "Создать",
-        "Advanced Setup": "Настройки", "Farms": "Фермы", "Pastures": "Пастбища",
-        "Personal Quarters": "Личные покои", "Dormitories": "Казармы", "Dining Rooms": "Столовые",
-        "Guard Areas": "Зоны охраны", "Patrol Routes": "Маршруты патруля", "Decrease": "Уменьшить",
-        "Increase": "Увеличить", "Zoom in": "Приблизить", "Zoom out": "Отдалить",
-        "Bookmark": "Закладка", "Set Bookmark": "Установить закладку", "Action Button": "Кнопка",
+        "Load Game": "Загрузить игру", "Delete": "Удалить", "Load": "Загрузить",
+        "Save": "Сохранить", "Cancel": "Отмена", "Suspend": "Пауза", "Resume": "Продолжить",
         "Mine Wall": "Копать стену", "Mine Stairs": "Копать лестницу", "Mine Ramp": "Копать скат",
         "Dig Hole": "Рыть яму", "Replace Wall": "Заменить стену", "Replace Floor": "Заменить пол",
         "Plant Tree": "Посадить дерево", "Fell Tree": "Срубить дерево", "Cut Clipping": "Срезать побег",
@@ -33,7 +42,6 @@ def get_master_map():
         "Furniture": "Мебель", "Floor": "Пол", "Stockpile": "Склад", "Farm": "Ферма", "Pasture": "Пастбище",
         "Dormitory": "Казарма", "Dining Room": "Столовая", "Hospital": "Госпиталь", "Clean": "Очистить",
         "Deconstruct": "Разобрать", "Remove Designation": "Снять разметку", "Cancel Job": "Отменить работу",
-        "Tiny": "Крошечный", "Small": "Малый", "Large": "Большой", "Huge": "Огромный",
         "Generating Map": "Генерация карты", "Settling Liquids": "Расчет жидкостей", "Kingdom": "Королевство",
         "Stocks": "Запасы", "Population": "Население", "Military": "Армия", "Events": "События",
         "Help": "Помощь", "Sunrise": "Рассвет", "Sunset": "Закат", "Overview": "Сводка",
@@ -77,13 +85,10 @@ def get_master_map():
     }
 
 def process():
-    # Read raw capture
     with open('C:/Users/Lecoo/projects/GnomoriaTranslator/Gnomoria_raw_catch.json', 'r', encoding='utf-8', errors='ignore') as f:
         content = f.read()
 
-    # Regex keys
     keys = re.findall(r'\"([^\"]+)\"\s*:', content)
-    
     t_map = get_master_map()
     sorted_map_keys = sorted(t_map.keys(), key=len, reverse=True)
     
@@ -94,22 +99,22 @@ def process():
         if k == "v1.0":
             val = "v0.0.2 | memasevich 2026"
         else:
-            # Multi-pass translation for phrases
-            for eng in sorted_map_keys:
-                if eng.lower() in val.lower():
-                    rus = t_map[eng]
-                    # Check case
-                    if eng[0].isupper():
-                        val = val.replace(eng, rus.capitalize())
-                    else:
-                        val = val.replace(eng, rus)
-        
+            # Сначала проверяем на полное совпадение для длинных фраз обучения
+            if k in t_map:
+                val = t_map[k]
+            else:
+                # Если полного совпадения нет, переводим по частям (для предметов)
+                for eng in sorted_map_keys:
+                    if eng.lower() in val.lower():
+                        rus = t_map[eng]
+                        if eng[0].isupper():
+                            val = val.replace(eng, rus.capitalize())
+                        else:
+                            val = val.replace(eng, rus)
         final_dict[k] = val
 
-    # Final Gold File
     with open('C:/Users/Lecoo/projects/GnomoriaTranslator/Gnomoria_FINAL_GOLD.json', 'w', encoding='utf-8') as f:
         json.dump(final_dict, f, ensure_ascii=False, indent=2)
-    
-    print(f"Final Gold reconstructed: {len(final_dict)} entries.")
+    print(f"Dictionary updated with tutorial: {len(final_dict)} entries.")
 
 process()
