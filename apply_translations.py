@@ -537,7 +537,7 @@ def run():
         import re
         keys = re.findall(r'\"([^\"]+)\"\s*:', f.read())
     
-    db = get_full_translation_db()
+    db = get_exhaustive_map()
     sorted_pats = sorted(db.keys(), key=len, reverse=True)
     
     final_dict = {}
