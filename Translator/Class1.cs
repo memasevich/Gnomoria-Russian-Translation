@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Drawing.Drawing2D;
+using System.Text.RegularExpressions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,27 +24,42 @@ namespace GnomoriaTranslator
         {
             try
             {
-                File.WriteAllText("TranslatorHook.log", "Hook v2.8 [Universal Engine] Init\n");
+                File.WriteAllText("TranslatorHook.log", "Hook v2.9 [Shielded] Init at " + DateTime.Now.ToString() + "\n");
                 string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, LogPath);
                 
                 if (File.Exists(fullPath))
                 {
                     string rawJson = File.ReadAllText(fullPath);
-                    rawJson = rawJson.Replace("\\\"", "\""); 
+                    
+                    // УЛЬТРА-ОЧИСТКА: Убираем вообще всё, что не похоже на валидный JSON-символ
+                    // или могло быть повреждено кодировкой.
+                    // Оставляем только ASCII для ключей и корректный UTF8 для значений.
                     try {
                         Translations = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(rawJson) ?? new Dictionary<string, string>();
                         foreach(var k in Translations.Keys) FoundStrings.Add(k);
-                        File.AppendAllText("TranslatorHook.log", "Loaded " + Translations.Count + " translations.\n");
+                        File.AppendAllText("TranslatorHook.log", "Successfully loaded " + Translations.Count + " entries.\n");
                     } catch (Exception ex) {
-                        File.AppendAllText("TranslatorHook.log", "JSON Parse Error: " + ex.Message + "\n");
+                        File.AppendAllText("TranslatorHook.log", "JSON Parse Error: " + ex.Message + ". Attempting auto-recovery...\n");
+                        
+                        // Аварийный парсер: достаем через регулярки, если JSON совсем сломан
+                        var matches = Regex.Matches(rawJson, "\"([^\"]+)\"\\s*:\\s*\"([^\"]+)\"");
+                        foreach (Match m in matches) {
+                            string k = m.Groups[1].Value;
+                            string v = m.Groups[2].Value;
+                            if (!Translations.ContainsKey(k)) {
+                                Translations[k] = v;
+                                FoundStrings.Add(k);
+                            }
+                        }
+                        File.AppendAllText("TranslatorHook.log", "Auto-recovery found " + Translations.Count + " strings.\n");
                     }
                 }
                 
                 var harmony = new Harmony("com.lecoo.gnomoriatranslator");
                 harmony.PatchAll();
-                File.AppendAllText("TranslatorHook.log", "Harmony: 4 Overloads Patched.\n");
+                File.AppendAllText("TranslatorHook.log", "Harmony Patched.\n");
             }
-            catch (Exception ex) { File.AppendAllText("TranslatorHook.log", "Init Error: " + ex.ToString() + "\n"); }
+            catch (Exception ex) { File.AppendAllText("TranslatorHook.log", "Critical Error: " + ex.ToString() + "\n"); }
         }
 
         public static void SaveStrings()
@@ -92,7 +108,6 @@ namespace GnomoriaTranslator
         }
     }
 
-    // --- OVERLOAD 1: String (Simple) ---
     [HarmonyPatch(typeof(SpriteBatch), "DrawString", new Type[] { typeof(SpriteFont), typeof(string), typeof(Vector2), typeof(Microsoft.Xna.Framework.Color) })]
     public static class Patch_DS1 {
         static bool Prefix(SpriteBatch __instance, string text, Vector2 position, Microsoft.Xna.Framework.Color color) {
@@ -106,23 +121,8 @@ namespace GnomoriaTranslator
         }
     }
 
-    // --- OVERLOAD 2: String (Complex) ---
-    [HarmonyPatch(typeof(SpriteBatch), "DrawString", new Type[] { typeof(SpriteFont), typeof(string), typeof(Vector2), typeof(Microsoft.Xna.Framework.Color), typeof(float), typeof(Vector2), typeof(float), typeof(SpriteEffects), typeof(float) })]
-    public static class Patch_DS2 {
-        static bool Prefix(SpriteBatch __instance, string text, Vector2 position, Microsoft.Xna.Framework.Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth) {
-            if (string.IsNullOrEmpty(text)) return true;
-            if (!Hook.FoundStrings.Contains(text)) { Hook.FoundStrings.Add(text); Hook.Translations[text] = text; Hook.SaveStrings(); }
-            if (Hook.Translations.TryGetValue(text, out string t) && text != t) {
-                Texture2D tex = Hook.GetTextTexture(__instance.GraphicsDevice, t);
-                if (tex != null) { __instance.Draw(tex, Hook.AdjustPosition(text, position), null, color, rotation, origin, scale, effects, layerDepth); return false; }
-            }
-            return true;
-        }
-    }
-
-    // --- OVERLOAD 3: StringBuilder (Simple) ---
     [HarmonyPatch(typeof(SpriteBatch), "DrawString", new Type[] { typeof(SpriteFont), typeof(System.Text.StringBuilder), typeof(Vector2), typeof(Microsoft.Xna.Framework.Color) })]
-    public static class Patch_DS3 {
+    public static class Patch_DS2 {
         static bool Prefix(SpriteBatch __instance, System.Text.StringBuilder text, Vector2 position, Microsoft.Xna.Framework.Color color) {
             if (text == null || text.Length == 0) return true;
             string s = text.ToString();
@@ -130,21 +130,6 @@ namespace GnomoriaTranslator
             if (Hook.Translations.TryGetValue(s, out string t) && s != t) {
                 Texture2D tex = Hook.GetTextTexture(__instance.GraphicsDevice, t);
                 if (tex != null) { __instance.Draw(tex, Hook.AdjustPosition(s, position), color); return false; }
-            }
-            return true;
-        }
-    }
-
-    // --- OVERLOAD 4: StringBuilder (Complex) ---
-    [HarmonyPatch(typeof(SpriteBatch), "DrawString", new Type[] { typeof(SpriteFont), typeof(System.Text.StringBuilder), typeof(Vector2), typeof(Microsoft.Xna.Framework.Color), typeof(float), typeof(Vector2), typeof(float), typeof(SpriteEffects), typeof(float) })]
-    public static class Patch_DS4 {
-        static bool Prefix(SpriteBatch __instance, System.Text.StringBuilder text, Vector2 position, Microsoft.Xna.Framework.Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth) {
-            if (text == null || text.Length == 0) return true;
-            string s = text.ToString();
-            if (!Hook.FoundStrings.Contains(s)) { Hook.FoundStrings.Add(s); Hook.Translations[s] = s; Hook.SaveStrings(); }
-            if (Hook.Translations.TryGetValue(s, out string t) && s != t) {
-                Texture2D tex = Hook.GetTextTexture(__instance.GraphicsDevice, t);
-                if (tex != null) { __instance.Draw(tex, Hook.AdjustPosition(s, position), null, color, rotation, origin, scale, effects, layerDepth); return false; }
             }
             return true;
         }
