@@ -1,144 +1,201 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Drawing.Drawing2D;
-using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using HarmonyLib;
+using Newtonsoft.Json;
 
 namespace GnomoriaTranslator
 {
     public class Hook
     {
-        public static HashSet<string> FoundStrings = new HashSet<string>();
         public static Dictionary<string, string> Translations = new Dictionary<string, string>();
-        public static string LogPath = "Gnomoria_en_ru.json";
         public static Dictionary<string, Texture2D> TextureCache = new Dictionary<string, Texture2D>();
         
-        public static Font SysFont = new Font("Arial", 12, FontStyle.Regular, GraphicsUnit.Pixel);
-        public static SolidBrush SysBrush = new SolidBrush(System.Drawing.Color.White);
-
-        private static void Log(string msg) {
-            try { File.AppendAllText("TranslatorHook.log", msg + "\n"); } catch {}
+        public static void Log(string msg) {
+            try { File.AppendAllText(@"D:\steam\steamapps\common\Gnomoria\TranslatorHook.log", msg + "\n"); } catch { }
         }
 
         public static void Init()
         {
             try
             {
-                File.WriteAllText("TranslatorHook.log", "Hook v3.4 [Safe Mode] Init at " + DateTime.Now.ToString() + "\n");
-                string dir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                string fullPath = Path.Combine(dir, LogPath);
-                
-                if (File.Exists(fullPath))
+                Log("\nHook v5.5 [FONT FIX] Init at " + DateTime.Now.ToString());
+                string jsonPath = @"D:\steam\steamapps\common\Gnomoria\Gnomoria_en_ru.json";
+                if (File.Exists(jsonPath))
                 {
-                    // Явная загрузка UTF-8
-                    string json = File.ReadAllText(fullPath, System.Text.Encoding.UTF8);
-                    Translations = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(json) ?? new Dictionary<string, string>();
-                    foreach(var k in Translations.Keys) FoundStrings.Add(k);
-                    Log("Successfully loaded " + Translations.Count + " entries.");
+                    Translations = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(jsonPath, new UTF8Encoding(true)));
+                    Log("Loaded " + Translations.Count + " entries.");
                 }
-                
-                var harmony = new Harmony("com.lecoo.gnomoriatranslator");
-                harmony.PatchAll();
-                Log("Harmony Patched Successfully.");
+
+                var harmony = new Harmony("com.lecoo.gnomoriatranslator.dynamic");
+                var methods = typeof(SpriteBatch).GetMethods().Where(m => m.Name == "DrawString").ToList();
+
+                foreach (var m in methods)
+                {
+                    var parameters = m.GetParameters();
+                    if (parameters.Length >= 4) // Минимум Font, Text, Position, Color
+                    {
+                        if (parameters[1].ParameterType == typeof(string))
+                            harmony.Patch(m, new HarmonyMethod(typeof(Hook).GetMethod("PrefixString")));
+                        else if (parameters[1].ParameterType == typeof(StringBuilder))
+                            harmony.Patch(m, new HarmonyMethod(typeof(Hook).GetMethod("PrefixSB")));
+                    }
+                }
+                HelpPatcher.Patch(harmony);
+                ResolutionPatcher.Patch(harmony);
             }
             catch (Exception ex) { Log("Init Error: " + ex.ToString()); }
         }
 
-        // ВАЖНО: Мы больше не сохраняем строки автоматически, чтобы не портить файл
-        public static void SaveStrings()
+        // ПРЕФИКС ДЛЯ СТРОК
+        public static bool PrefixString(SpriteBatch __instance, SpriteFont spriteFont, ref string text, Vector2 position, Microsoft.Xna.Framework.Color color)
         {
-            // Метод заглушен для стабильности
+            text = ProcessText(text);
+            if (ContainsRussian(text))
+            {
+                DrawCustomText(__instance, text, position, color);
+                return false; // Пропускаем оригинальный DrawString
+            }
+            return true;
         }
 
-        public static Vector2 AdjustPosition(string text, Vector2 pos)
+        // ПРЕФИКС ДЛЯ StringBuilder
+        public static bool PrefixSB(SpriteBatch __instance, SpriteFont spriteFont, StringBuilder text, Vector2 position, Microsoft.Xna.Framework.Color color)
         {
-            if (text != null && text.Contains("v1.0")) return new Vector2(pos.X - 145f, pos.Y);
-            return pos;
+            if (text == null) return true;
+            string original = text.ToString();
+            string translated = ProcessText(original);
+            
+            if (ContainsRussian(translated))
+            {
+                DrawCustomText(__instance, translated, position, color);
+                return false; // Пропускаем
+            }
+            return true;
         }
 
-        public static Texture2D GetTextTexture(GraphicsDevice device, string text)
+        private static bool ContainsRussian(string text)
         {
-            if (TextureCache.TryGetValue(text, out Texture2D tex)) return tex;
-            try {
-                using (Bitmap bmp = new Bitmap(1, 1))
-                using (Graphics g = Graphics.FromImage(bmp))
+            return text.Any(c => (c >= 'а' && c <= 'я') || (c >= 'А' && c <= 'Я') || c == 'ё' || c == 'Ё');
+        }
+
+        private static void DrawCustomText(SpriteBatch sb, string text, Vector2 pos, Microsoft.Xna.Framework.Color color)
+        {
+            Texture2D tex;
+            if (!TextureCache.TryGetValue(text, out tex))
+            {
+                tex = CreateTextTexture(sb.GraphicsDevice, text);
+                TextureCache[text] = tex;
+            }
+            if (tex != null)
+            {
+                sb.Draw(tex, pos, color);
+            }
+        }
+
+        public static string ProcessText(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return text;
+            string trimmed = text.Trim();
+            string res;
+            if (Translations.TryGetValue(trimmed, out res)) return res;
+
+            // Префиксы
+            if (trimmed.StartsWith("Year ")) return trimmed.Replace("Year ", "Год ");
+            if (trimmed.StartsWith("Day ")) return trimmed.Replace("Day ", "День ");
+            if (trimmed.StartsWith("Depth: ")) return trimmed.Replace("Depth: ", "Глубина: ");
+            if (trimmed.StartsWith("Nourishment Weight: ")) return trimmed.Replace("Nourishment Weight: ", "Важность питания: ");
+            if (trimmed.StartsWith("Action Button ")) return trimmed.Replace("Action Button ", "Кн. действия ");
+            if (trimmed.StartsWith("Set Bookmark ")) return trimmed.Replace("Set Bookmark ", "Уст. закладку ");
+            if (trimmed.StartsWith("Bookmark ")) return trimmed.Replace("Bookmark ", "Закладка ");
+
+            // Перевод профессий гномов (например, "Trixilli Farmer" -> "Trixilli Фермер")
+            string[] englishProfs = new string[] { "Miner", "Carpenter", "Stonecutter", "Blacksmith", "Tailor", "Leatherworker", "Woodcutter", "Farmer", "Builder", "Soldier", "Doctor", "Hauler", "Rancher", "Weaver" };
+            string[] russianProfs = new string[] { "Шахтёр", "Плотник", "Камнерез", "Кузнец", "Портной", "Кожевник", "Лесоруб", "Фермер", "Строитель", "Солдат", "Доктор", "Носильщик", "Скотовод", "Ткач" };
+            for (int i = 0; i < englishProfs.Length; i++)
+            {
+                if (trimmed.EndsWith(" " + englishProfs[i]))
                 {
-                    SizeF size = g.MeasureString(text, SysFont);
-                    int w = (int)Math.Ceiling(size.Width + 4);
-                    int h = (int)Math.Ceiling(size.Height + 2);
-                    using (Bitmap renderBmp = new Bitmap(w > 0 ? w : 1, h > 0 ? h : 1))
-                    using (Graphics renderG = Graphics.FromImage(renderBmp))
+                    return trimmed.Substring(0, trimmed.Length - englishProfs[i].Length) + russianProfs[i];
+                }
+            }
+
+            // Деревья
+            if (trimmed == "birch tree") return "берёза";
+            if (trimmed == "pine tree") return "сосна";
+            if (trimmed == "apple tree") return "яблоня";
+            if (trimmed == "orange tree") return "апельсиновое дерево";
+            if (trimmed == "peach tree") return "персиковое дерево";
+            if (trimmed == "pear tree") return "грушевое дерево";
+            if (trimmed == "cherry tree") return "вишнёвое дерево";
+            if (trimmed == "mahogany tree") return "махагони";
+
+            // Полы
+            if (trimmed == "dirt floor") return "земляной пол";
+            if (trimmed == "stone floor") return "каменный пол";
+            if (trimmed == "wood floor") return "деревянный пол";
+            if (trimmed == "plank floor") return "дощатый пол";
+            if (trimmed == "block floor") return "блочный пол";
+            if (trimmed == "straw floor") return "соломенный пол";
+            if (trimmed == "clay floor") return "глиняный пол";
+            
+            // Логируем пропущенное
+            if (trimmed.Any(char.IsLetter) && !ContainsRussian(trimmed))
+            {
+                try { File.AppendAllText(@"D:\steam\steamapps\common\Gnomoria\TOTAL_LOG.txt", trimmed + "\n"); } catch { }
+            }
+
+            return text;
+        }
+
+        private static Texture2D CreateTextTexture(GraphicsDevice device, string text)
+        {
+            try
+            {
+                // Настройки шрифта (Возвращаем оригинальный Arial 12px Regular, Unit: Pixel)
+                using (var font = new System.Drawing.Font("Arial", 12f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel))
+                {
+                    // Измеряем текст
+                    using (var tempBmp = new Bitmap(1, 1))
+                    using (var g = System.Drawing.Graphics.FromImage(tempBmp))
                     {
-                        renderG.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
-                        renderG.Clear(System.Drawing.Color.Transparent);
-                        renderG.DrawString(text, SysFont, SysBrush, 0, 0);
-                        tex = new Texture2D(device, renderBmp.Width, renderBmp.Height, false, SurfaceFormat.Color);
-                        Microsoft.Xna.Framework.Color[] data = new Microsoft.Xna.Framework.Color[renderBmp.Width * renderBmp.Height];
-                        for (int y = 0; y < renderBmp.Height; y++)
-                            for (int x = 0; x < renderBmp.Width; x++) {
-                                System.Drawing.Color c = renderBmp.GetPixel(x, y);
-                                data[y * renderBmp.Width + x] = new Microsoft.Xna.Framework.Color(c.R, c.G, c.B, c.A);
+                        var size = g.MeasureString(text, font);
+                        int w = (int)Math.Ceiling(size.Width + 4);
+                        int h = (int)Math.Ceiling(size.Height + 2);
+                        if (w <= 0 || h <= 0) return null;
+
+                        using (var bmp = new Bitmap(w, h))
+                        using (var g2 = System.Drawing.Graphics.FromImage(bmp))
+                        {
+                            g2.TextRenderingHint = TextRenderingHint.AntiAliasGridFit; // Оригинальное сглаживание
+                            g2.Clear(System.Drawing.Color.Transparent);
+                            g2.DrawString(text, font, System.Drawing.Brushes.White, 0, 0);
+
+                            // Конвертируем в XNA Texture2D
+                            var data = new Microsoft.Xna.Framework.Color[w * h];
+                            for (int y = 0; y < h; y++)
+                            {
+                                for (int x = 0; x < w; x++)
+                                {
+                                    var c = bmp.GetPixel(x, y);
+                                    data[y * w + x] = new Microsoft.Xna.Framework.Color(c.R, c.G, c.B, c.A);
+                                }
                             }
-                        tex.SetData(data);
-                        TextureCache[text] = tex;
-                        return tex;
+                            var tex = new Texture2D(device, w, h);
+                            tex.SetData(data);
+                            return tex;
+                        }
                     }
                 }
-            } catch { return null; }
-        }
-    }
-
-    [HarmonyPatch(typeof(SpriteBatch), "DrawString", new Type[] { typeof(SpriteFont), typeof(string), typeof(Vector2), typeof(Microsoft.Xna.Framework.Color) })]
-    public static class Patch_DS1 {
-        static bool Prefix(SpriteBatch __instance, string text, Vector2 position, Microsoft.Xna.Framework.Color color) {
-            if (string.IsNullOrEmpty(text)) return true;
-            if (Hook.Translations.TryGetValue(text, out string t) && text != t) {
-                Texture2D tex = Hook.GetTextTexture(__instance.GraphicsDevice, t);
-                if (tex != null) { __instance.Draw(tex, Hook.AdjustPosition(text, position), color); return false; }
             }
-            return true;
-        }
-    }
-
-    [HarmonyPatch(typeof(SpriteBatch), "DrawString", new Type[] { typeof(SpriteFont), typeof(string), typeof(Vector2), typeof(Microsoft.Xna.Framework.Color), typeof(float), typeof(Vector2), typeof(float), typeof(SpriteEffects), typeof(float) })]
-    public static class Patch_DS2 {
-        static bool Prefix(SpriteBatch __instance, string text, Vector2 position, Microsoft.Xna.Framework.Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth) {
-            if (string.IsNullOrEmpty(text)) return true;
-            if (Hook.Translations.TryGetValue(text, out string t) && text != t) {
-                Texture2D tex = Hook.GetTextTexture(__instance.GraphicsDevice, t);
-                if (tex != null) { __instance.Draw(tex, Hook.AdjustPosition(text, position), null, color, rotation, origin, scale, effects, layerDepth); return false; }
-            }
-            return true;
-        }
-    }
-
-    [HarmonyPatch(typeof(SpriteBatch), "DrawString", new Type[] { typeof(SpriteFont), typeof(System.Text.StringBuilder), typeof(Vector2), typeof(Microsoft.Xna.Framework.Color) })]
-    public static class Patch_DS3 {
-        static bool Prefix(SpriteBatch __instance, System.Text.StringBuilder text, Vector2 position, Microsoft.Xna.Framework.Color color) {
-            if (text == null || text.Length == 0) return true;
-            string s = text.ToString();
-            if (Hook.Translations.TryGetValue(s, out string t) && s != t) {
-                Texture2D tex = Hook.GetTextTexture(__instance.GraphicsDevice, t);
-                if (tex != null) { __instance.Draw(tex, position, color); return false; }
-            }
-            return true;
-        }
-    }
-
-    [HarmonyPatch(typeof(SpriteBatch), "DrawString", new Type[] { typeof(SpriteFont), typeof(System.Text.StringBuilder), typeof(Vector2), typeof(Microsoft.Xna.Framework.Color), typeof(float), typeof(Vector2), typeof(float), typeof(SpriteEffects), typeof(float) })]
-    public static class Patch_DS4 {
-        static bool Prefix(SpriteBatch __instance, System.Text.StringBuilder text, Vector2 position, Microsoft.Xna.Framework.Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth) {
-            if (text == null || text.Length == 0) return true;
-            string s = text.ToString();
-            if (Hook.Translations.TryGetValue(s, out string t) && s != t) {
-                Texture2D tex = Hook.GetTextTexture(__instance.GraphicsDevice, t);
-                if (tex != null) { __instance.Draw(tex, position, null, color, rotation, origin, scale, effects, layerDepth); return false; }
-            }
-            return true;
+            catch { return null; }
         }
     }
 }
