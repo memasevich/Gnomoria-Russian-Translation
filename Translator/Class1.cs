@@ -1,3 +1,7 @@
+// Gnomoria Russian Translation
+// Developer: memasevich
+// Release line: v0.6.0
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -118,8 +122,8 @@ namespace GnomoriaTranslator
             if (trimmed.StartsWith("Bookmark ")) return trimmed.Replace("Bookmark ", "Закладка ");
 
             // Перевод профессий гномов (например, "Trixilli Farmer" -> "Trixilli Фермер")
-            string[] englishProfs = new string[] { "Miner", "Carpenter", "Stonecutter", "Blacksmith", "Tailor", "Leatherworker", "Woodcutter", "Farmer", "Builder", "Soldier", "Doctor", "Hauler", "Rancher", "Weaver" };
-            string[] russianProfs = new string[] { "Шахтёр", "Плотник", "Камнерез", "Кузнец", "Портной", "Кожевник", "Лесоруб", "Фермер", "Строитель", "Солдат", "Доктор", "Носильщик", "Скотовод", "Ткач" };
+            string[] englishProfs = new string[] { "Miner", "Carpenter", "Stonecutter", "Blacksmith", "Tailor", "Leatherworker", "Woodcutter", "Farmer", "Builder", "Soldier", "Doctor", "Hauler", "Rancher", "Weaver", "Engineer", "Jeweler" };
+            string[] russianProfs = new string[] { "Шахтёр", "Плотник", "Камнерез", "Кузнец", "Портной", "Кожевник", "Лесоруб", "Фермер", "Строитель", "Солдат", "Доктор", "Носильщик", "Скотовод", "Ткач", "Инженер", "Ювелир" };
             for (int i = 0; i < englishProfs.Length; i++)
             {
                 if (trimmed.EndsWith(" " + englishProfs[i]))
