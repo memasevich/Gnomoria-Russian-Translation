@@ -106,6 +106,7 @@ namespace GnomoriaTranslator
             string trimmed = text.Trim();
             string res;
             if (Translations.TryGetValue(trimmed, out res)) return res;
+            if (TryTranslateDynamic(trimmed, out res)) return res;
 
             // Префиксы
             if (trimmed.StartsWith("Year ")) return trimmed.Replace("Year ", "Год ");
@@ -153,6 +154,71 @@ namespace GnomoriaTranslator
             }
 
             return text;
+        }
+
+        private static bool TryTranslateDynamic(string text, out string result)
+        {
+            result = null;
+
+            if (TryTranslatePrefix(text, "Food:", "Еда:", out result)) return true;
+            if (TryTranslatePrefix(text, "Drink:", "Питьё:", out result)) return true;
+            if (TryTranslatePrefix(text, "Drink", "Питьё", out result)) return true;
+            if (TryTranslatePrefix(text, "Sunrise:", "Восход:", out result)) return true;
+            if (TryTranslatePrefix(text, "Population:", "Население:", out result)) return true;
+            if (TryTranslatePrefix(text, "Deceased:", "Погибшие:", out result)) return true;
+            if (TryTranslatePrefix(text, "Injured:", "Раненые:", out result)) return true;
+            if (TryTranslatePrefix(text, "Idle:", "Без дела:", out result)) return true;
+            if (TryTranslatePrefix(text, "Required Carpentry:", "Требуется плотницкое дело:", out result)) return true;
+            if (TryTranslatePrefix(text, "Required Masonry:", "Требуется каменное дело:", out result)) return true;
+            if (TryTranslatePrefix(text, "Efficiency:", "Эффективность:", out result)) return true;
+            if (TryTranslatePrefix(text, "Available Space:", "Свободное место:", out result)) return true;
+            if (TryTranslatePrefix(text, "Crops Ready:", "Готово к сбору:", out result)) return true;
+            if (TryTranslatePrefix(text, "Seeds Planted:", "Посажено семян:", out result)) return true;
+            if (TryTranslatePrefix(text, "Tilled Plots:", "Вспахано участков:", out result)) return true;
+            if (TryTranslatePrefix(text, "Planted:", "Посажено:", out result)) return true;
+            if (TryTranslatePrefix(text, "Pastured:", "На выпасе:", out result)) return true;
+            if (TryTranslatePrefix(text, "Males:", "Самцы:", out result)) return true;
+            if (TryTranslatePrefix(text, "Females:", "Самки:", out result)) return true;
+            if (TryTranslatePrefix(text, "Trees:", "Деревья:", out result)) return true;
+            if (TryTranslatePrefix(text, "Fruit:", "Плоды:", out result)) return true;
+            if (TryTranslatePrefix(text, "Can be clipped:", "Можно стричь:", out result)) return true;
+            if (TryTranslatePrefix(text, "No Room:", "Нет места:", out result)) return true;
+            if (TryTranslatePrefix(text, "Last played:", "Последняя игра:", out result)) return true;
+            if (TryTranslatePrefix(text, "Total (", "Всего (", out result)) return true;
+            if (TryTranslatePrefix(text, "Dormitories (", "Общие спальни (", out result)) return true;
+            if (TryTranslatePrefix(text, "Personal Quarters (", "Личные комнаты (", out result)) return true;
+            if (TryTranslatePrefix(text, "Hospitals (", "Больницы (", out result)) return true;
+            if (TryTranslatePrefix(text, "Dining Rooms (", "Столовые (", out result)) return true;
+            if (TryTranslatePrefix(text, "any wood door (", "любая деревянная дверь (", out result)) return true;
+            if (TryTranslatePrefix(text, "wheat straw pile (", "куча пшеничной соломы (", out result)) return true;
+            if (TryTranslatePrefix(text, "any log (", "любое бревно (", out result)) return true;
+            if (TryTranslatePrefix(text, "any plank (", "любая доска (", out result)) return true;
+            if (TryTranslatePrefix(text, "cotton bag (strawberry seed) (", "хлопковый мешок (семена клубники) (", out result)) return true;
+            if (TryTranslatePrefix(text, "cotton bag (wheat seed) (", "хлопковый мешок (семена пшеницы) (", out result)) return true;
+            if (TryTranslatePrefix(text, "pine crate (", "сосновый ящик (", out result)) return true;
+            if (TryTranslatePrefix(text, "any raw stone (", "любой необработанный камень (", out result)) return true;
+            if (TryTranslatePrefix(text, "any crate (", "любой ящик (", out result)) return true;
+            if (TryTranslatePrefix(text, "dirt pile (", "куча земли (", out result)) return true;
+
+            if (TryTranslatePrefix(text, "Distance:", "Расстояние:", out result))
+            {
+                result = result.Replace(" days ", " дн. ").Replace(" hours", " ч.");
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool TryTranslatePrefix(string text, string englishPrefix, string russianPrefix, out string result)
+        {
+            if (text.StartsWith(englishPrefix, StringComparison.OrdinalIgnoreCase))
+            {
+                result = russianPrefix + text.Substring(englishPrefix.Length);
+                return true;
+            }
+
+            result = null;
+            return false;
         }
 
         private static Texture2D CreateTextTexture(GraphicsDevice device, string text)
