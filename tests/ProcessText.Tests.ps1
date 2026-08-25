@@ -1,6 +1,7 @@
 param(
     [Parameter(Mandatory = $true)]
-    [string]$AssemblyPath
+    [string]$AssemblyPath,
+    [string]$DictionaryPath
 )
 
 $ErrorActionPreference = 'Stop'
@@ -22,14 +23,29 @@ function U([string]$codePoints) {
     })
 }
 
-$translations = New-Object 'System.Collections.Generic.Dictionary[string,string]'
-$staticTranslations = @{
-    'Engineer:' = (U '0418 043D 0436 0435 043D 0435 0440 003A')
-    'melee' = (U '0431 043B 0438 0436 043D 0438 0439 0020 0431 043E 0439')
-    'ranged' = (U '0434 0430 043B 044C 043D 0438 0439 0020 0431 043E 0439')
-}
-foreach ($entry in $staticTranslations.GetEnumerator()) {
-    $translations[$entry.Key] = $entry.Value
+if ($DictionaryPath) {
+    if (-not (Test-Path -LiteralPath $DictionaryPath)) {
+        throw "Dictionary not found: $DictionaryPath"
+    }
+    $jsonAssembly = Join-Path (Split-Path -Parent (Resolve-Path -LiteralPath $AssemblyPath).Path) 'Newtonsoft.Json.dll'
+    if (Test-Path -LiteralPath $jsonAssembly) {
+        Add-Type -Path $jsonAssembly
+    }
+    $jsonText = [System.IO.File]::ReadAllText((Resolve-Path -LiteralPath $DictionaryPath).Path)
+    $translations = [Newtonsoft.Json.JsonConvert]::DeserializeObject(
+        $jsonText,
+        [System.Collections.Generic.Dictionary[string,string]]
+    )
+} else {
+    $translations = New-Object 'System.Collections.Generic.Dictionary[string,string]'
+    $staticTranslations = @{
+        'Engineer:' = (U '0418 043D 0436 0435 043D 0435 0440 003A')
+        'melee' = (U '0431 043B 0438 0436 043D 0438 0439 0020 0431 043E 0439')
+        'ranged' = (U '0434 0430 043B 044C 043D 0438 0439 0020 0431 043E 0439')
+    }
+    foreach ($entry in $staticTranslations.GetEnumerator()) {
+        $translations[$entry.Key] = $entry.Value
+    }
 }
 $hookType.GetField('Translations').SetValue($null, $translations)
 

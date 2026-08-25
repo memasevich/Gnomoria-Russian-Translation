@@ -162,7 +162,7 @@ namespace GnomoriaTranslator
 
             if (TryTranslatePrefix(text, "Food:", "Еда:", out result)) return true;
             if (TryTranslatePrefix(text, "Drink:", "Питьё:", out result)) return true;
-            if (TryTranslatePrefix(text, "Drink", "Питьё", out result)) return true;
+            if (TryTranslatePrefix(text, "Drink...", "Питьё...", out result)) return true;
             if (TryTranslatePrefix(text, "Sunrise:", "Восход:", out result)) return true;
             if (TryTranslatePrefix(text, "Population:", "Население:", out result)) return true;
             if (TryTranslatePrefix(text, "Deceased:", "Погибшие:", out result)) return true;
