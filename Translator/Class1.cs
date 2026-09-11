@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using HarmonyLib;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace GnomoriaTranslator
 {
@@ -53,7 +54,26 @@ namespace GnomoriaTranslator
                     }
                 }
                 HelpPatcher.Patch(harmony);
+                DefsPatcher.Patch(harmony);
                 ResolutionPatcher.Patch(harmony);
+
+                // Optional chain-load for GnomoriaOptimizer if present
+                try
+                {
+                    string optPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "GnomoriaOptimizer.dll");
+                    if (File.Exists(optPath))
+                    {
+                        var optAssembly = System.Reflection.Assembly.LoadFrom(optPath);
+                        var hookType = optAssembly.GetType("GnomoriaOptimizer.Hook");
+                        var initMethod = hookType?.GetMethod("Init", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                        initMethod?.Invoke(null, null);
+                        Log("Chain-loaded GnomoriaOptimizer successfully.");
+                    }
+                }
+                catch (Exception exOpt)
+                {
+                    Log("Optimizer chain-load warning: " + exOpt.Message);
+                }
             }
             catch (Exception ex) { Log("Init Error: " + ex.ToString()); }
         }
@@ -132,6 +152,16 @@ namespace GnomoriaTranslator
                 }
             }
 
+            int lastSpace = trimmed.LastIndexOf(' ');
+            if (lastSpace > 0 && lastSpace < trimmed.Length - 1)
+            {
+                string suffixWord = trimmed.Substring(lastSpace + 1);
+                if (Translations.TryGetValue(suffixWord, out string trSuffix) && trSuffix != suffixWord)
+                {
+                    return trimmed.Substring(0, lastSpace + 1) + trSuffix;
+                }
+            }
+
             // Деревья
             if (trimmed == "birch tree") return "берёза";
             if (trimmed == "pine tree") return "сосна";
@@ -150,9 +180,18 @@ namespace GnomoriaTranslator
             if (trimmed == "block floor") return "блочный пол";
             if (trimmed == "straw floor") return "соломенный пол";
             if (trimmed == "clay floor") return "глиняный пол";
+
+            // Стены
+            if (trimmed == "dirt wall") return "земляная стена";
+            if (trimmed == "stone wall") return "каменная стена";
+            if (trimmed == "wood wall") return "деревянная стена";
+            if (trimmed == "plank wall") return "дощатая стена";
+            if (trimmed == "block wall") return "блочная стена";
+            if (trimmed == "straw wall") return "соломенная стена";
+            if (trimmed == "clay wall") return "глиняная стена";
             
-            // Логируем пропущенное
-            if (trimmed.Any(char.IsLetter) && !ContainsRussian(trimmed))
+            // Логируем пропущенное (исключая шум таймера скорости)
+            if (trimmed.Any(char.IsLetter) && !ContainsRussian(trimmed) && !IsNoise(trimmed))
             {
                 try { File.AppendAllText(@"D:\steam\steamapps\common\Gnomoria\TOTAL_LOG.txt", trimmed + "\n"); } catch { }
             }
@@ -168,12 +207,18 @@ namespace GnomoriaTranslator
             if (TryTranslatePrefix(text, "Drink:", "Питьё:", out result)) return true;
             if (TryTranslatePrefix(text, "Drink...", "Питьё...", out result)) return true;
             if (TryTranslatePrefix(text, "Sunrise:", "Восход:", out result)) return true;
+            if (TryTranslatePrefix(text, "Sunset:", "Закат:", out result)) return true;
+            if (TryTranslatePrefix(text, "Worth:", "Ценность:", out result)) return true;
+            if (TryTranslatePrefix(text, "Squads:", "Отряды:", out result)) return true;
+            if (TryTranslatePrefix(text, "Soldiers:", "Солдаты:", out result)) return true;
+            if (TryTranslatePrefix(text, "Assigned:", "Назначено:", out result)) return true;
             if (TryTranslatePrefix(text, "Population:", "Население:", out result)) return true;
             if (TryTranslatePrefix(text, "Deceased:", "Погибшие:", out result)) return true;
             if (TryTranslatePrefix(text, "Injured:", "Раненые:", out result)) return true;
             if (TryTranslatePrefix(text, "Idle:", "Без дела:", out result)) return true;
             if (TryTranslatePrefix(text, "Required Carpentry:", "Требуется плотницкое дело:", out result)) return true;
             if (TryTranslatePrefix(text, "Required Masonry:", "Требуется каменное дело:", out result)) return true;
+            if (TryTranslatePrefix(text, "Required Construction:", "Требуется строительство:", out result)) return true;
             if (TryTranslatePrefix(text, "Efficiency:", "Эффективность:", out result)) return true;
             if (TryTranslatePrefix(text, "Available Space:", "Свободное место:", out result)) return true;
             if (TryTranslatePrefix(text, "Crops Ready:", "Готово к сбору:", out result)) return true;
@@ -194,6 +239,7 @@ namespace GnomoriaTranslator
             if (TryTranslatePrefix(text, "Hospitals (", "Больницы (", out result)) return true;
             if (TryTranslatePrefix(text, "Dining Rooms (", "Столовые (", out result)) return true;
             if (TryTranslatePrefix(text, "any wood door (", "любая деревянная дверь (", out result)) return true;
+            if (TryTranslatePrefix(text, "any bed (", "любая кровать (", out result)) return true;
             if (TryTranslatePrefix(text, "wheat straw pile (", "куча пшеничной соломы (", out result)) return true;
             if (TryTranslatePrefix(text, "any log (", "любое бревно (", out result)) return true;
             if (TryTranslatePrefix(text, "any plank (", "любая доска (", out result)) return true;
@@ -210,6 +256,404 @@ namespace GnomoriaTranslator
                 return true;
             }
 
+            // Задачи вида "Task: Build Sawmill", "Task: Craft Item"
+            if (text.StartsWith("Task: ", StringComparison.OrdinalIgnoreCase))
+            {
+                string subAction = text.Substring(6).Trim();
+                result = "Задача: " + ProcessText(subAction);
+                return true;
+            }
+
+            // Навыки с уровнем в скобках вида "(26) Mining", "(4) Pottery"
+            if (TryTranslateNumberedSkill(text, out result)) return true;
+
+            // Календарные даты вида "2nd day of Spring, Year 1", "2nd day of Spring"
+            if (TryTranslateDate(text, out result)) return true;
+
+            // Навыки гномов, характеристики и числовые префиксы с двоеточием вида "Mining: 24", "Pastured Animals: 0/20"
+            if (TryTranslateColonValue(text, out result)) return true;
+
+            // Профессии с двоеточием вида "miner:", "farmer:"
+            if (TryTranslateSingleColonWord(text, out result)) return true;
+
+            // Количество с предметом вида "1x raw stone (19)", "16x raw stone", "479x clump"
+            if (TryTranslateQuantity(text, out result)) return true;
+
+            // Предмет с количеством на складе вида "any barrel (2)", "alpaca (0)", "yak (2)"
+            if (TryTranslateItemWithCount(text, out result)) return true;
+
+            // Игровые события (смерти, появление врагов, кочевники, сезоны, кровь, останки)
+            if (TryTranslateGameEvents(text, out result)) return true;
+
+            // События сна и усталости
+            if (TryTranslateSleepEvent(text, out result)) return true;
+
+            // Зависимости и верстак
+            if (TryTranslateWorkbenchCraft(text, out result)) return true;
+
+            return false;
+        }
+
+        private static readonly Regex DateRegex = new Regex(@"^(\d+)(?:st|nd|rd|th)\s+day\s+of\s+(Spring|Summer|Autumn|Winter)(?:,\s*Year\s*(\d+))?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex NumberedSkillRegex = new Regex(@"^\((\d+)\)\s+(.+)$", RegexOptions.Compiled);
+        private static readonly Regex QuantityRegex = new Regex(@"^(\d+x)\s+(.+?)(?:\s*(\(\d+\)))?$", RegexOptions.Compiled);
+        private static readonly Regex AnyItemWithCountRegex = new Regex(@"^any\s+(.+?)\s*\((\d+)\)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex ItemWithCountRegex = new Regex(@"^([A-Za-z][A-Za-z0-9\s-]*?)\s*\((\d+)\)$", RegexOptions.Compiled);
+        private static readonly Regex GnomadsRegex = new Regex(@"^(\d+)\s+gnomads have arrived\.$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex WaterRegex = new Regex(@"^(\d+)%\s+water$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex NoiseRegex = new Regex(@"^\(\d+(\.\d+)?x\)\s+\d{1,2}:\d{2}$", RegexOptions.Compiled);
+        private static readonly Regex DimensionNoiseRegex = new Regex(@"^\d+\s*x\s*\d+$", RegexOptions.Compiled);
+        private static readonly Regex SpeedNoiseRegex = new Regex(@"^\d+x$", RegexOptions.Compiled);
+        private static readonly Regex HotkeyNoiseRegex = new Regex(@"^(?:(?:Left|Right)?(?:Control|Alt|Shift)\s*\+\s*.*|F\d{1,2}|Space|Enter|Escape|Tab|[A-Z])$", RegexOptions.Compiled);
+
+        private static bool TryTranslateNumberedSkill(string text, out string result)
+        {
+            result = null;
+            var match = NumberedSkillRegex.Match(text);
+            if (!match.Success) return false;
+            string num = match.Groups[1].Value;
+            string skill = match.Groups[2].Value.Trim();
+            string trSkill = ProcessText(skill);
+            if (trSkill != skill || ContainsRussian(trSkill))
+            {
+                result = "(" + num + ") " + trSkill;
+                return true;
+            }
+            return false;
+        }
+
+        private static bool TryTranslateQuantity(string text, out string result)
+        {
+            result = null;
+            var match = QuantityRegex.Match(text);
+            if (!match.Success) return false;
+
+            string count = match.Groups[1].Value;
+            string item = match.Groups[2].Value.Trim();
+            string inStock = match.Groups[3].Success ? match.Groups[3].Value : null;
+
+            string trItem = ProcessText(item);
+            if (trItem != item || ContainsRussian(trItem))
+            {
+                result = count + " " + trItem + (string.IsNullOrEmpty(inStock) ? "" : " " + inStock);
+                return true;
+            }
+            return false;
+        }
+
+        private static bool TryTranslateItemWithCount(string text, out string result)
+        {
+            result = null;
+            var anyMatch = AnyItemWithCountRegex.Match(text);
+            if (anyMatch.Success)
+            {
+                string item = anyMatch.Groups[1].Value.Trim();
+                string count = anyMatch.Groups[2].Value;
+                string fullAny = "any " + item;
+                if (Translations.TryGetValue(fullAny, out string trAny))
+                {
+                    result = trAny + " (" + count + ")";
+                    return true;
+                }
+                string trItem = ProcessText(item);
+                result = "любой: " + trItem + " (" + count + ")";
+                return true;
+            }
+
+            var match = ItemWithCountRegex.Match(text);
+            if (match.Success)
+            {
+                string item = match.Groups[1].Value.Trim();
+                string count = match.Groups[2].Value;
+                string trItem = ProcessText(item);
+                if (trItem != item || ContainsRussian(trItem))
+                {
+                    result = trItem + " (" + count + ")";
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static bool TryTranslateSingleColonWord(string text, out string result)
+        {
+            result = null;
+            if (text.EndsWith(":") && !text.Contains(" "))
+            {
+                string baseWord = text.Substring(0, text.Length - 1);
+                if (Translations.TryGetValue(baseWord, out string trWord))
+                {
+                    result = trWord + ":";
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static bool TryTranslateDate(string text, out string result)
+        {
+            result = null;
+            var match = DateRegex.Match(text);
+            if (!match.Success) return false;
+
+            string day = match.Groups[1].Value;
+            string seasonEng = match.Groups[2].Value.ToLowerInvariant();
+            string seasonRu;
+            switch (seasonEng)
+            {
+                case "spring": seasonRu = "весны"; break;
+                case "summer": seasonRu = "лета"; break;
+                case "autumn": seasonRu = "осени"; break;
+                case "winter": seasonRu = "зимы"; break;
+                default: seasonRu = seasonEng; break;
+            }
+
+            if (match.Groups[3].Success)
+            {
+                result = day + "-й день " + seasonRu + ", Год " + match.Groups[3].Value;
+            }
+            else
+            {
+                result = day + "-й день " + seasonRu;
+            }
+            return true;
+        }
+
+        private static bool TryTranslateColonValue(string text, out string result)
+        {
+            result = null;
+            int colonIdx = text.IndexOf(':');
+            if (colonIdx > 0 && colonIdx < text.Length - 1)
+            {
+                string prefix = text.Substring(0, colonIdx + 1);
+                string suffix = text.Substring(colonIdx + 1).Trim();
+
+                if (Translations.TryGetValue(prefix, out string trPrefix))
+                {
+                    if (Translations.TryGetValue(suffix, out string trSuffix))
+                    {
+                        result = trPrefix + " " + trSuffix;
+                        return true;
+                    }
+
+                    if (TryTranslateDate(suffix, out string trDate))
+                    {
+                        result = trPrefix + " " + trDate;
+                        return true;
+                    }
+
+                    if (suffix.Length > 0 && suffix.All(c => char.IsDigit(c) || c == '/' || c == ' ' || c == '%'))
+                    {
+                        result = trPrefix + " " + suffix;
+                        return true;
+                    }
+
+                    string trOther = ProcessText(suffix);
+                    if (trOther != suffix || ContainsRussian(trOther))
+                    {
+                        result = trPrefix + " " + trOther;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private static bool TryTranslateGameEvents(string text, out string result)
+        {
+            result = null;
+
+            if (text.EndsWith(" has died.", StringComparison.OrdinalIgnoreCase))
+            {
+                string name = text.Substring(0, text.Length - 10).Trim();
+                if (name.Equals("The goblin", StringComparison.OrdinalIgnoreCase))
+                {
+                    result = "Гоблин погиб.";
+                }
+                else
+                {
+                    result = name + " погибает.";
+                }
+                return true;
+            }
+
+            if (text.EndsWith(" has bled to death.", StringComparison.OrdinalIgnoreCase))
+            {
+                string name = text.Substring(0, text.Length - 20).Trim();
+                result = name + " истекает кровью до смерти.";
+                return true;
+            }
+
+            if (text.StartsWith("A ", StringComparison.OrdinalIgnoreCase) && text.EndsWith(" has been spotted.", StringComparison.OrdinalIgnoreCase))
+            {
+                string creature = text.Substring(2, text.Length - 2 - 18).Trim();
+                if (Translations.TryGetValue(creature, out string trCreature))
+                {
+                    result = "Замечен: " + trCreature + ".";
+                    return true;
+                }
+            }
+
+            if (text.StartsWith("a goblin is now known as ", StringComparison.OrdinalIgnoreCase))
+            {
+                result = "Гоблин теперь известен как " + text.Substring(25);
+                return true;
+            }
+
+            var gnomadMatch = GnomadsRegex.Match(text);
+            if (gnomadMatch.Success)
+            {
+                result = gnomadMatch.Groups[1].Value + " прибыло гномов-кочевников.";
+                return true;
+            }
+
+            if (text.Equals("It is now summer.", StringComparison.OrdinalIgnoreCase)) { result = "Наступило лето."; return true; }
+            if (text.Equals("It is now spring.", StringComparison.OrdinalIgnoreCase)) { result = "Наступила весна."; return true; }
+            if (text.Equals("It is now autumn.", StringComparison.OrdinalIgnoreCase)) { result = "Наступила осень."; return true; }
+            if (text.Equals("It is now winter.", StringComparison.OrdinalIgnoreCase)) { result = "Наступила зима."; return true; }
+
+            if (text.EndsWith("'s corpse", StringComparison.OrdinalIgnoreCase))
+            {
+                result = "Труп: " + text.Substring(0, text.Length - 9);
+                return true;
+            }
+            if (text.EndsWith("'s blood", StringComparison.OrdinalIgnoreCase))
+            {
+                result = "Кровь: " + text.Substring(0, text.Length - 8);
+                return true;
+            }
+
+            var waterMatch = WaterRegex.Match(text);
+            if (waterMatch.Success)
+            {
+                result = waterMatch.Groups[1].Value + "% воды";
+                return true;
+            }
+
+            if (text.EndsWith(" is in good health", StringComparison.OrdinalIgnoreCase))
+            {
+                result = text.Substring(0, text.Length - 18) + " в добром здравии";
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool TryTranslateSleepEvent(string text, out string result)
+        {
+            result = null;
+            const string sleepSuffix = " falls asleep on the floor.";
+            if (text.EndsWith(sleepSuffix, StringComparison.OrdinalIgnoreCase))
+            {
+                string name = text.Substring(0, text.Length - sleepSuffix.Length);
+                result = name + " засыпает на полу.";
+                return true;
+            }
+            const string exhaustSuffix = " passes out from exhaustion.";
+            if (text.EndsWith(exhaustSuffix, StringComparison.OrdinalIgnoreCase))
+            {
+                string name = text.Substring(0, text.Length - exhaustSuffix.Length);
+                result = name + " падает от истощения.";
+                return true;
+            }
+            return false;
+        }
+
+        private static bool TryTranslateWorkbenchCraft(string text, out string result)
+        {
+            result = null;
+
+            // "Crude Workbench (Efficiency: 70%)"
+            const string effTag = " (Efficiency: ";
+            int effIdx = text.IndexOf(effTag, StringComparison.OrdinalIgnoreCase);
+            if (effIdx > 0 && text.EndsWith(")"))
+            {
+                string wsName = text.Substring(0, effIdx);
+                string effPart = text.Substring(effIdx + effTag.Length).TrimEnd(')');
+                result = ProcessText(wsName) + " (Эффективность: " + effPart + ")";
+                return true;
+            }
+
+            // "plank (for workbench)"
+            const string forTag = " (for ";
+            int forIdx = text.IndexOf(forTag, StringComparison.OrdinalIgnoreCase);
+            if (forIdx > 0 && text.EndsWith(")"))
+            {
+                string itemPart = text.Substring(0, forIdx);
+                string forPart = text.Substring(forIdx + forTag.Length).TrimEnd(')');
+                result = ProcessText(itemPart) + " (для: " + ProcessText(forPart) + ")";
+                return true;
+            }
+
+            // "chair (needs plank)"
+            const string needsTag = " (needs ";
+            int needsIdx = text.IndexOf(needsTag, StringComparison.OrdinalIgnoreCase);
+            if (needsIdx > 0 && text.EndsWith(")"))
+            {
+                string itemPart = text.Substring(0, needsIdx);
+                string needsPart = text.Substring(needsIdx + needsTag.Length).TrimEnd(')');
+                result = ProcessText(itemPart) + " (требуется: " + ProcessText(needsPart) + ")";
+                return true;
+            }
+
+            // "For workbench at"
+            if (text.StartsWith("For ", StringComparison.OrdinalIgnoreCase) && text.EndsWith(" at", StringComparison.OrdinalIgnoreCase))
+            {
+                string target = text.Substring(4, text.Length - 7).Trim();
+                result = "Для: " + ProcessText(target) + " в";
+                return true;
+            }
+
+            // "Craft plank"
+            if (text.StartsWith("Craft ", StringComparison.OrdinalIgnoreCase))
+            {
+                string item = text.Substring(6).Trim();
+                result = "Создать: " + ProcessText(item);
+                return true;
+            }
+
+            // "Build Sawmill"
+            if (text.StartsWith("Build ", StringComparison.OrdinalIgnoreCase) && !text.StartsWith("Build a ", StringComparison.OrdinalIgnoreCase))
+            {
+                string ws = text.Substring(6).Trim();
+                if (Translations.TryGetValue(ws, out string wsRu))
+                {
+                    result = "Построить: " + wsRu;
+                    return true;
+                }
+            }
+
+            // "workbench (for build jo..."
+            if (text.Contains("(for build jo"))
+            {
+                int idx = text.IndexOf("(for build jo");
+                string itm = text.Substring(0, idx).Trim();
+                result = ProcessText(itm) + " (для стройки...)";
+                return true;
+            }
+            if (text.Contains("(for bed) (ne"))
+            {
+                int idx = text.IndexOf("(for bed) (ne");
+                string itm = text.Substring(0, idx).Trim();
+                result = ProcessText(itm) + " (для кровати) (нуж...)";
+                return true;
+            }
+            if (text.StartsWith("Needs plank at", StringComparison.OrdinalIgnoreCase))
+            {
+                result = "Требуется доска в";
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool IsNoise(string text)
+        {
+            if (NoiseRegex.IsMatch(text)) return true;
+            if (DimensionNoiseRegex.IsMatch(text)) return true;
+            if (SpeedNoiseRegex.IsMatch(text)) return true;
+            if (HotkeyNoiseRegex.IsMatch(text)) return true;
+            if (text.Equals("v1.0", StringComparison.OrdinalIgnoreCase)) return true;
             return false;
         }
 
