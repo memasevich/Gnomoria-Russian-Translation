@@ -9,7 +9,7 @@ obj/
 *.log
 TranslatorHook.log
 Skin/
-Default.zip
+*.zip
 Gnomoria_en_ru.json
 Gnomoria_en_ru_latest.json
 Gnomoria_en_ru_new.json
