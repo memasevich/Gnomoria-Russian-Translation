@@ -19,4 +19,8 @@ Gnomoria_en_ru_final.json
 *untranslated*.json
 actual_phrases*.json
 remaining_*.json
+dist/
+Installer/
+tests/
+Patcher/
 DEV_README.md

@@ -1,6 +1,6 @@
 // Gnomoria Russian Translation
 // Developer: memasevich
-// Release line: v0.6.0
+// Release line: v0.7.0
 
 using System;
 using System.Collections.Generic;
@@ -23,16 +23,31 @@ namespace GnomoriaTranslator
         public static Dictionary<string, string> Translations = new Dictionary<string, string>();
         public static Dictionary<string, Texture2D> TextureCache = new Dictionary<string, Texture2D>();
         
-        public static void Log(string msg) {
-            try { File.AppendAllText(@"D:\steam\steamapps\common\Gnomoria\TranslatorHook.log", msg + "\n"); } catch { }
+        private static bool _initialized = false;
+
+        public static void Log(string msg)
+        {
+            try
+            {
+                string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TranslatorHook.log");
+                File.AppendAllText(logPath, msg + "\n");
+            }
+            catch { }
         }
 
         public static void Init()
         {
+            if (_initialized) return;
+            _initialized = true;
+
             try
             {
-                Log("\nHook v5.5 [FONT FIX] Init at " + DateTime.Now.ToString());
-                string jsonPath = @"D:\steam\steamapps\common\Gnomoria\Gnomoria_en_ru.json";
+                Log("\nHook v0.7.0 Init at " + DateTime.Now.ToString());
+                string jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Gnomoria_en_ru.json");
+                if (!File.Exists(jsonPath))
+                {
+                    jsonPath = @"D:\steam\steamapps\common\Gnomoria\Gnomoria_en_ru.json";
+                }
                 if (File.Exists(jsonPath))
                 {
                     Translations = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(jsonPath, new UTF8Encoding(true)));
@@ -193,7 +208,7 @@ namespace GnomoriaTranslator
             // Логируем пропущенное (исключая шум таймера скорости)
             if (trimmed.Any(char.IsLetter) && !ContainsRussian(trimmed) && !IsNoise(trimmed))
             {
-                try { File.AppendAllText(@"D:\steam\steamapps\common\Gnomoria\TOTAL_LOG.txt", trimmed + "\n"); } catch { }
+                try { File.AppendAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TOTAL_LOG.txt"), trimmed + "\n"); } catch { }
             }
 
             return text;
