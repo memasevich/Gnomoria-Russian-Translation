@@ -190,5 +190,12 @@ powershell -File tests/ProcessText.Tests.ps1 -AssemblyPath Translator/bin/Releas
 
 ---
 
-**Автор проекта:** [memasevich](https://github.com/memasevich)  
-**Версия:** v0.7.0-Dynamic
+<p align="center">
+  <a href="https://github.com/memasevich">
+    <img src="images/memasevich_logo.png" alt="memasevich logo" width="340"/>
+  </a>
+  <br>
+  <b>Автор проекта:</b> <a href="https://github.com/memasevich">memasevich</a><br>
+  <b>Версия:</b> <code>v0.7.0-Dynamic</code>
+</p>
+
