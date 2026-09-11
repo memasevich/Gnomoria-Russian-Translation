@@ -1,8 +1,0 @@
-{
-    "Developer":  "memasevich",
-    "TranslatorAssembly":  "Translator.dll",
-    "Version":  "v0.7.0",
-    "Repository":  "memasevich/Gnomoria-Russian-Translation",
-    "Dictionary":  "Gnomoria_en_ru.json",
-    "Installer":  "GnomoriaRussianTranslationInstaller.exe"
-}
